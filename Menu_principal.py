@@ -35,12 +35,11 @@ def menu_elegir_tablero()->int:
     opciones = (int)(input("Eliga una opcion:"))
 
     if opciones!=3:
-        tamaño_de_tablero = opciones*2
+        tamanio_de_tablero = opciones*2
     
-    else : tamaño_de_tablero = 2
+    else : tamanio_de_tablero = 2
 
-    return tamaño_de_tablero
-
+    return tamanio_de_tablero
 
 def imprir_tablero(tablero:list)->None:
     cont = 1
@@ -71,34 +70,58 @@ def validar_menu()->int:
 
     return int(numero)
 
-def validar_columnas_y_filas(numero:int):
+def validar_columnas_y_filas(numero:int,tamanio_de_tablero:int):
     '''
     Pre: -
     Post: Valida que los datos sean numeros y esten en el rango que se pide 
     '''
-    while not numero.isnumeric() or (int(numero)) >= 2:
-        print("ERROR")
-        numero = input("\n Eliga un valor que sea un numero y este en el rango: ")
+    while not numero.isnumeric() or (int(numero)) > (tamanio_de_tablero) or int(numero) <1 :
+        print("\nERROR")
+        numero = input("\nEliga un valor que sea un numero y este en el rango: ")
 
-    return int(numero)
+    return (int(numero)-1)
 
-def generar_matriz()->None:
+def cantidad_de_letras(tamanio_de_tablero:int)->int:
     '''
     Pre: -
-    Post: Genera la matriz con las letras
+    Post: Define el tamino que tiene que tener el tablero de juego  
     '''
-    cadena_completa = string.ascii_letters
+    if tamanio_de_tablero >2:
+        pares_de_letras = tamanio_de_tablero *  2
+    
+    else: pares_de_letras = tamanio_de_tablero
 
-    letra1 = random.choice(cadena_completa)
-    copia1 = letra1
+    return pares_de_letras
 
-    letra2 = random.choice(cadena_completa)
-    copia2 = letra2
+def crear_matriz(tamanio_de_tablero:int):
+    '''
+    Pre: -
+    Post: Crea la matriz con las letras que se necesitan para jugar
+    '''
 
-    lista = [letra1, letra2, copia1, copia2]
-    random.shuffle(lista)
-    matriz = [[lista[0],lista[1]], [lista[2],lista[3]]]
+    letras = string.ascii_letters
+    matriz = []
+    lista_de_letras_1 = []
+    lista_de_letras_2 = []
 
+    pares_de_letras = cantidad_de_letras(tamanio_de_tablero)
+
+    for i in range(pares_de_letras):
+        if letras[i] not in lista_de_letras_1:
+            lista_de_letras_1.append(letras[i])
+            lista_de_letras_2.append(letras[i])
+        
+        if len(lista_de_letras_1) == tamanio_de_tablero:
+            random.shuffle(lista_de_letras_1)
+            random.shuffle(lista_de_letras_2)
+
+            matriz.append(lista_de_letras_1)   
+            matriz.append(lista_de_letras_2)
+
+            lista_de_letras_1 = []
+            lista_de_letras_2 = []
+
+    random.shuffle(matriz)
     return matriz
 
 def tiempo_jugado_y_intentos(instanteInicial:float,intentos_totales:int)->None:
@@ -106,21 +129,25 @@ def tiempo_jugado_y_intentos(instanteInicial:float,intentos_totales:int)->None:
     Pre: -
     Post: indica cuanto tiempo tomo terminar una partida y cuantos intentos tuvo el usuario 
     '''
-    instanteFinal = datetime.now()#cuando termina de jugar
+    instanteFinal = datetime.now()
     tiempo = instanteFinal - instanteInicial
     print(f"\nTiempo jugado: {tiempo}, la cantidad de intenso fue: {intentos_totales} " )
 
-def buscar_fichas(matriz:list,tablero:list,instanteInicial:float)->str:
+def buscar_fichas(matriz:list,tablero:list,instanteInicial:float,tamanio_de_tablero:int)->None:
+    '''
+    Pre: Pide dos posiciones que esten en un rango de posibiladades 
+    Post: Te devulve las letras que se hallan en esas posiciones ingresadas 
+    '''
     contador = 0 
     intentos_totales = 0
     imprir_tablero(tablero)
 
-    while contador <2:
+    while contador <(tamanio_de_tablero):
         fila_1 = input("Ingrese una fila: ")
-        fila_1 = validar_columnas_y_filas(fila_1)
+        fila_1 = validar_columnas_y_filas(fila_1,tamanio_de_tablero)
 
         columna_1 = input("\nEliga una columna: ")
-        columna_1 = validar_columnas_y_filas(columna_1)
+        columna_1 = validar_columnas_y_filas(columna_1,tamanio_de_tablero)
 
         ficha_1 = matriz[fila_1][columna_1]
         tablero[fila_1][columna_1] = ficha_1
@@ -128,10 +155,10 @@ def buscar_fichas(matriz:list,tablero:list,instanteInicial:float)->str:
         imprir_tablero(tablero)
 
         fila_2 = input("\nEliga otra fila: ")
-        fila_2 = validar_columnas_y_filas(fila_2)
+        fila_2 = validar_columnas_y_filas(fila_2,tamanio_de_tablero)
 
         columna_2 = input("\nEliga otra columna: ")
-        columna_2 = validar_columnas_y_filas(columna_2)
+        columna_2 = validar_columnas_y_filas(columna_2,tamanio_de_tablero)
 
         ficha_2 = matriz[fila_2][columna_2]
         tablero[fila_2][columna_2] = ficha_2
@@ -151,7 +178,7 @@ def buscar_fichas(matriz:list,tablero:list,instanteInicial:float)->str:
 
 def main()->None:
     opcion=0
-    tablero_num = 2 #Establecemos un valor predefinido para el tamaño del tablero
+    tamanio_de_tablero = 2 #Establecemos un valor predefinido para el tamaño del tablero
     while opcion !=7:
         print("\n-----MENU PRINCIPAL-----")
         print("1. Empezar a jugar")
@@ -165,13 +192,13 @@ def main()->None:
 
         if opcion==1:
             instanteInicial = datetime.now()#al empezar a jugar
-            tablero = crear_tablero(tablero_num) #Genera el tablero con las fichas ocultas 
-            matriz = generar_matriz() #Genera la matriz con las letras del juego
-            buscar_fichas(matriz,tablero,instanteInicial)
+            tablero = crear_tablero(tamanio_de_tablero) #Genera el tablero con las fichas ocultas 
+            matriz = crear_matriz(tamanio_de_tablero) #Genera la matriz con las letras del juego
+            buscar_fichas(matriz,tablero,instanteInicial,tamanio_de_tablero)
             
 
         elif opcion==2:
-            tablero_num = menu_elegir_tablero()
+            tamanio_de_tablero = menu_elegir_tablero()
     
         elif opcion==3:
             pass
