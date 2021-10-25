@@ -28,16 +28,19 @@ def menu_elegir_tablero()->int:
     Post: Configuraciones del juego
     ''' 
     print("")
-    print("1-Tablero medio 2x2")
-    print("2-Tablero largo 4x4")
+    print("1-Tablero de 4x2")
+    print("2-Tablero de 4x4")
     print("3-Salir(si eliges esta opcion quedara fijado el tablero 2x2)")
     print("")
-    opciones = (int)(input("Eliga una opcion:"))
+    opciones = (int(input("Eliga una opcion: ")))
 
-    if opciones!=3:
-        tamanio_de_tablero = opciones*2
+    if opciones == 2:
+        tamanio_de_tablero = 4
     
-    else : tamanio_de_tablero = 2
+    elif opciones == 2:
+        tamanio_de_tablero = 4 
+    
+    else: tamanio_de_tablero = 2
 
     return tamanio_de_tablero
 
@@ -122,6 +125,7 @@ def crear_matriz(tamanio_de_tablero:int):
             lista_de_letras_2 = []
 
     random.shuffle(matriz)
+    print(matriz)
     return matriz
 
 def tiempo_jugado_y_intentos(instanteInicial:float,intentos_totales:int)->None:
