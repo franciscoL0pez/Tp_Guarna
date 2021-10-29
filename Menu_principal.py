@@ -1,9 +1,9 @@
-import string
+import string 
 import random
 import os
 from datetime import datetime
 
-def borrar_pantalla():
+def borrar_pantalla()->None:
     '''
     Pre: -
     Post:Borra la pantalla 
@@ -34,8 +34,8 @@ def menu_elegir_tablero()->int:
     print("")
     opciones = (int(input("Eliga una opcion: ")))
 
-    if opciones == 2:
-        tamanio_de_tablero = 4
+    if opciones == 1:              #Cambiar por el tablero de 4x2   
+        tamanio_de_tablero = 4 
     
     elif opciones == 2:
         tamanio_de_tablero = 4 
@@ -73,7 +73,7 @@ def validar_menu()->int:
 
     return int(numero)
 
-def validar_columnas_y_filas(numero:int,tamanio_de_tablero:int):
+def validar_columnas_y_filas(numero:int,tamanio_de_tablero:int)->int:
     '''
     Pre: -
     Post: Valida que los datos sean numeros y esten en el rango que se pide 
@@ -87,7 +87,7 @@ def validar_columnas_y_filas(numero:int,tamanio_de_tablero:int):
 def cantidad_de_letras(tamanio_de_tablero:int)->int:
     '''
     Pre: -
-    Post: Define el tamino que tiene que tener el tablero de juego  
+    Post: Define el tamaño que tiene que tener el tablero de juego  
     '''
     if tamanio_de_tablero >2:
         pares_de_letras = tamanio_de_tablero *  2
@@ -96,7 +96,7 @@ def cantidad_de_letras(tamanio_de_tablero:int)->int:
 
     return pares_de_letras
 
-def crear_matriz(tamanio_de_tablero:int):
+def crear_matriz(tamanio_de_tablero:int)->list:
     '''
     Pre: -
     Post: Crea la matriz con las letras que se necesitan para jugar
@@ -125,7 +125,6 @@ def crear_matriz(tamanio_de_tablero:int):
             lista_de_letras_2 = []
 
     random.shuffle(matriz)
-    print(matriz)
     return matriz
 
 def tiempo_jugado_y_intentos(instanteInicial:float,intentos_totales:int)->None:
@@ -198,7 +197,7 @@ def main()->None:
             instanteInicial = datetime.now()#al empezar a jugar
             tablero = crear_tablero(tamanio_de_tablero) #Genera el tablero con las fichas ocultas 
             matriz = crear_matriz(tamanio_de_tablero) #Genera la matriz con las letras del juego
-            buscar_fichas(matriz,tablero,instanteInicial,tamanio_de_tablero)
+            buscar_fichas(matriz,tablero,instanteInicial,tamanio_de_tablero) 
             
 
         elif opcion==2:
