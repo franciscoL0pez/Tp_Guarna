@@ -84,6 +84,22 @@ def validar_columnas_y_filas(numero:int,tamanio_de_tablero:int)->int:
 
     return (int(numero)-1)
 
+def validar_lugar_disponible(ficha,fila,columna,tamanio_de_tablero,tablero,matriz):
+    ficha = 0
+    ficha_tablero = tablero[fila][columna]
+    
+    while ficha_tablero != 0 and ficha == 0 :
+        print("ERROR ya esta ese lugar tomado")
+        fila = input("Ingrese una fila: ")
+        fila = validar_columnas_y_filas(fila,tamanio_de_tablero)
+        columna = input("\nEliga una columna: ")
+        columna = validar_columnas_y_filas(columna,tamanio_de_tablero)
+        ficha = validar_lugar_disponible(ficha,fila,columna,tamanio_de_tablero,tablero,matriz)
+        ficha = matriz[fila][columna]
+        tablero[fila][columna] = ficha
+        print(ficha)
+    return ficha
+
 def cantidad_de_letras(tamanio_de_tablero:int)->int:
     '''
     Pre: -
@@ -215,9 +231,12 @@ def buscar_fichas(matriz:list,tablero:list,instanteInicial:float,tamanio_de_tabl
 
         columna_1 = input("\nEliga una columna: ")
         columna_1 = validar_columnas_y_filas(columna_1,tamanio_de_tablero)
-
+        
+        ficha_1 = 0
+        ficha_1 = validar_lugar_disponible(ficha_1,fila_1,columna_1,tamanio_de_tablero,tablero,matriz)
         ficha_1 = matriz[fila_1][columna_1] 
-        tablero[fila_1][columna_1] = ficha_1    
+        tablero[fila_1][columna_1] = ficha_1
+        
 
         imprir_tablero(tablero) 
 
@@ -226,7 +245,9 @@ def buscar_fichas(matriz:list,tablero:list,instanteInicial:float,tamanio_de_tabl
 
         columna_2 = input("\nEliga otra columna: ")
         columna_2 = validar_columnas_y_filas(columna_2,tamanio_de_tablero)
-
+        
+        ficha_2 =0
+        ficha_2 = validar_lugar_disponible(ficha_2,fila_2,columna_2,tamanio_de_tablero,tablero,matriz)
         ficha_2 = matriz[fila_2][columna_2]
         tablero[fila_2][columna_2] = ficha_2
         
