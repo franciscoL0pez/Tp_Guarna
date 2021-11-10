@@ -186,29 +186,30 @@ def jugador_que_incia(datos:dict)->None:
 
     return lista_de_jugadores
     
-def cambiar_turno(datos:dict,jugador:str)->None:
+def cambiar_turno(datos:dict,jugador:str,cant_de_jugadores:int)->None:
     lista_de_jugador = jugador_que_incia(datos)
-  
-    if jugador==lista_de_jugador[0]:
-        jugador = lista_de_jugador[1]
+    
+    if cant_de_jugadores ==2:
+        if jugador==lista_de_jugador[0]:
+            jugador = lista_de_jugador[1]
 
-    else:
-        jugador = lista_de_jugador[0]
+        else:
+            jugador = lista_de_jugador[0]
 
     return jugador
 
-def buscar_fichas(matriz:list,tablero:list,instanteInicial:float,tamanio_de_tablero:int,datos:dict)->None:
+def buscar_fichas(matriz:list,tablero:list,instanteInicial:float,tamanio_de_tablero:int,datos:dict,cant_de_jugadores:int)->None:
     '''
     Pre: Pide dos posiciones que esten en un rango de posibiladades 
     Post: Te devulve las letras que se hallan en esas posiciones ingresadas 
     '''
-
-    imprir_tablero(tablero)
     lista_de_jugadores = jugador_que_incia(datos)
     jugador = lista_de_jugadores[0]
 
-    while tamanio_de_tablero > (datos[jugador][0] + datos[jugador][0]) :
+    while tamanio_de_tablero > (datos[jugador][0]) : #Buscar la forma de que se sumen los dos y en caso de  que sea uno se sume uno solo
+        borrar_pantalla()
         print(f"Es el turno del jugador: {jugador}")
+        imprir_tablero(tablero)
 
         fila_1 = input("\nIngrese una fila: ")
         fila_1 = validar_columnas_y_filas(fila_1,tamanio_de_tablero)
@@ -236,14 +237,14 @@ def buscar_fichas(matriz:list,tablero:list,instanteInicial:float,tamanio_de_tabl
             imprir_tablero(tablero)
             tablero[int(fila_1)][int(columna_1)] = 0
             tablero[int(fila_2)][int(columna_2)] = 0
-            jugador = cambiar_turno(datos, jugador)
+            jugador = cambiar_turno(datos, jugador,cant_de_jugadores)
         
         else :
             borrar_pantalla()
             imprir_tablero(tablero) 
             datos[jugador][0]+=1
 
-    tiempo_jugado_y_intentos(instanteInicial, intentos_totales) #Hay que ponerle los intentos totales del dict
+    #tiempo_jugado_y_intentos(instanteInicial, intentos_totales) #Hay que ponerle los intentos totales del dict
 
 def main()->None:
     opcion=0
@@ -265,7 +266,7 @@ def main()->None:
             instanteInicial = datetime.now()#al empezar a jugar
             tablero = crear_tablero(tamanio_de_tablero) #Genera el tablero con las fichas ocultas 
             matriz = crear_matriz(tamanio_de_tablero) #Genera la matriz con las letras del juego
-            buscar_fichas(matriz,tablero,instanteInicial,tamanio_de_tablero,datos) 
+            buscar_fichas(matriz,tablero,instanteInicial,tamanio_de_tablero,datos,cant_de_jugadores) 
             
 
         elif opcion==2:
