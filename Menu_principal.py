@@ -44,6 +44,17 @@ def menu_elegir_tablero()->int:
 
     return tamanio_de_tablero
 
+def pares_de_fichas(tamanio_de_tablero:int)->int:
+    cantidad_de_pares = 0 
+
+    if tamanio_de_tablero > 2:
+        cantidad_de_pares = tamanio_de_tablero*2
+    
+    else:
+        cantidad_de_pares = tamanio_de_tablero
+
+    return cantidad_de_pares
+
 def imprir_tablero(tablero:list)->None:
     cont = 1
     print("\nFILA\tCOLUMNAS")
@@ -84,7 +95,7 @@ def validar_columnas_y_filas(numero:int,tamanio_de_tablero:int)->int:
 
     return (int(numero)-1)
 
-def validar_lugar_disponible(ficha,fila,columna,tamanio_de_tablero,tablero,matriz):
+def validar_lugar_disponible(ficha:int,fila:int,columna:int,tamanio_de_tablero:int,tablero:list,matriz:list):
     ficha = 0
     ficha_tablero = tablero[fila][columna]
     
@@ -152,7 +163,7 @@ def tiempo_jugado_y_intentos(instanteInicial:float,intentos_totales:int)->None:
     tiempo = instanteFinal - instanteInicial
     print(f"\nTiempo jugado: {tiempo}, la cantidad de intenso fue: {intentos_totales} " )
 
-def cantiad_de_jugadores()->int:
+def cantidad_de_jugadores()->int:
     print("\n1. 1 Solo jugador ")
     print("2. 2 Jugadores")
     cant_de_jugadores = int(input("Ingrese una opcion:"))
@@ -163,6 +174,16 @@ def cantiad_de_jugadores()->int:
     else: cant_de_jugadores = 1 
 
     return cant_de_jugadores
+
+def sumar_puntos(cant_de_jugadores:int,datos:dict,lista_de_jugadores:list)->int:
+    puntos_totales = 0
+    if cant_de_jugadores==2:
+        puntos_totales = datos[lista_de_jugadores[0]][0] + datos[lista_de_jugadores[1]][0]
+
+    else:
+        puntos_totales = datos[lista_de_jugadores[0]][0]  
+
+    return puntos_totales
 
 def datos_de_jugadores(cant_de_jugadores:int,jugador_1:str,jugador_2:str)->None:
     datos = {}
@@ -212,18 +233,28 @@ def cambiar_turno(datos:dict,jugador:str,cant_de_jugadores:int)->None:
         else:
             jugador = lista_de_jugador[0]
 
+    else : 
+        jugador == lista_de_jugador[0]
+
     return jugador
+
+def ganador(datos:dict)->str:
+    for i in range(len(datos)):
+        print(i)
+        
 
 def buscar_fichas(matriz:list,tablero:list,instanteInicial:float,tamanio_de_tablero:int,datos:dict,cant_de_jugadores:int)->None:
     '''
     Pre: Pide dos posiciones que esten en un rango de posibiladades 
     Post: Te devulve las letras que se hallan en esas posiciones ingresadas 
     '''
-    lista_de_jugadores = jugador_que_incia(datos)
-    jugador = lista_de_jugadores[0]
-
-    while tamanio_de_tablero > (datos[jugador][0]) : #Buscar la forma de que se sumen los dos y en caso de  que sea uno se sume uno solo
-        borrar_pantalla()
+    lista_de_jugadores = jugador_que_incia(datos) #Mezcla la lista de jugadores para que comience cualquiera
+    jugador = lista_de_jugadores[0] #Llama al jugador que debe iniciar
+    cantidad_de_pares = pares_de_fichas(tamanio_de_tablero) #Dice la cantidad de pares que hay que adivinar
+    puntos_totales = 0 #Suma los puntos de los jugadores
+    
+    while cantidad_de_pares > (puntos_totales+1) : #Buscar la forma de que se sumen los dos y en caso de  que sea uno se sume uno solo
+        puntos_totales = sumar_puntos(cant_de_jugadores, datos, lista_de_jugadores)
         print(f"Es el turno del jugador: {jugador}")
         imprir_tablero(tablero)
 
@@ -261,7 +292,7 @@ def buscar_fichas(matriz:list,tablero:list,instanteInicial:float,tamanio_de_tabl
             jugador = cambiar_turno(datos, jugador,cant_de_jugadores)
         
         else :
-            borrar_pantalla()
+            #borrar_pantalla()
             imprir_tablero(tablero) 
             datos[jugador][0]+=1
 
@@ -294,7 +325,7 @@ def main()->None:
             tamanio_de_tablero = menu_elegir_tablero()
     
         elif opcion==3:
-            cant_de_jugadores = cantiad_de_jugadores()
+            cant_de_jugadores = cantidad_de_jugadores()
         
         elif opcion==4:
             pass

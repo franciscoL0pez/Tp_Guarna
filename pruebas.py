@@ -1,13 +1,4 @@
-import random 
+datos = {"fran":[1,2],"tomi":[1,3]}
+diccionario_ordenado = sorted(datos.items() ,key=lambda x:[x[0],x[1]], reverse=True )
 
-datos = {"fran":[],"tomi":[]}
-def jugador_que_incia(datos:dict)->None:
-    lista_de_jugadores = []
-    
-    for jugador in datos:
-        if jugador not in lista_de_jugadores:
-            lista_de_jugadores.append(jugador)
-
-    jugador_que_empieza = random.choice(lista_de_jugadores)
-
-    return jugador_que_empieza
+print(diccionario_ordenado)
