@@ -18,7 +18,7 @@ def crear_tablero(tablero_num:int)->list:
     Pre: -
     Post: Crea el tablero corto
     '''   
-    tablero=[[0 for j in range (tablero_num)]for i in range(tablero_num)]
+    tablero = [[0 for j in range (tablero_num)]for i in range(tablero_num)]
 
     return tablero
 
@@ -154,14 +154,14 @@ def crear_matriz(tamanio_de_tablero:int)->list:
     random.shuffle(matriz)
     return matriz
 
-def tiempo_jugado_y_intentos(instanteInicial:float,intentos_totales:int)->None:
+def tiempo_jugado_y_intentos(instanteInicial:float)->None:
     '''
     Pre: -
     Post: indica cuanto tiempo tomo terminar una partida y cuantos intentos tuvo el usuario 
     '''
     instanteFinal = datetime.now()
     tiempo = instanteFinal - instanteInicial
-    print(f"\nTiempo jugado: {tiempo}, la cantidad de intenso fue: {intentos_totales} " )
+    print(f"\nEl juego duro un tiempo de: {tiempo} " )
 
 def cantidad_de_jugadores()->int:
     print("\n1. 1 Solo jugador ")
@@ -202,8 +202,8 @@ def ingresar_jugadores(cant_de_jugadores:int)->dict:
     jugador_2 = ""
 
     if cant_de_jugadores == 2 :
-        jugador_1 = input("Ingrese el nombre del jugador 1 :")
-        jugador_2 = input("Ingrese el nombre del jugador 2 :")
+        jugador_1 = input("\nIngrese el nombre del jugador 1 :")
+        jugador_2 = input("\nIngrese el nombre del jugador 2 :")
 
     if cant_de_jugadores == 1 :
         jugador_1 = input("Ingrese el nombre del jugador:")
@@ -238,10 +238,31 @@ def cambiar_turno(datos:dict,jugador:str,cant_de_jugadores:int)->None:
 
     return jugador
 
-def ganador(datos:dict)->str:
-    for i in range(len(datos)):
-        print(i)
+def ganador(datos:dict,lista_de_jugadores:list,cant_de_jugadores:int)->str:
+    '''
+    Pre: -
+    Post: Compara los puntajes y si igualan compara los intentos  
+    '''
+    JUGADOR_1 = lista_de_jugadores[0]
+    JUGADOR_2 = lista_de_jugadores[0]
+    if cant_de_jugadores==2:
+
+        if datos[JUGADOR_1][0] > datos[JUGADOR_2][0]:
+            print(f"\nEl jugador {JUGADOR_1} gano la partida y realizo {datos[JUGADOR_1][1]} intentos")
         
+        if datos[JUGADOR_1][0] < datos[JUGADOR_2][0]:
+            print(f"\nEl jugador {JUGADOR_2} gano la partida y realizo {datos[JUGADOR_2][1]} intentos")
+
+        else:
+
+            if datos[JUGADOR_1][1] > datos[JUGADOR_2][1]:
+                print(f"\nEl ganador fue {JUGADOR_2} con una cantidad de intentos de {datos[JUGADOR_2][1]}")
+
+            else:
+                print(f"\nEl ganador fue {JUGADOR_1} con una cantidad de intentos de {datos[JUGADOR_1][1]}")
+
+    else:
+        print(f"\nHas ganado {JUGADOR_1} tuviste una cantidad de intentos de {datos[JUGADOR_1][1]}") #Si solo juega un jugador
 
 def buscar_fichas(matriz:list,tablero:list,instanteInicial:float,tamanio_de_tablero:int,datos:dict,cant_de_jugadores:int)->None:
     '''
@@ -283,20 +304,21 @@ def buscar_fichas(matriz:list,tablero:list,instanteInicial:float,tamanio_de_tabl
         ficha_2 = matriz[fila_2][columna_2]
         tablero[fila_2][columna_2] = ficha_2
         
-        datos[jugador][1]+=1
+        datos[jugador][1]+=1 #Sumamos siempre un intento al jugador 
 
         if ficha_1 != ficha_2:
             imprir_tablero(tablero)
             tablero[int(fila_1)][int(columna_1)] = 0
             tablero[int(fila_2)][int(columna_2)] = 0
             jugador = cambiar_turno(datos, jugador,cant_de_jugadores)
+            borrar_pantalla()
         
         else :
-            #borrar_pantalla()
-            imprir_tablero(tablero) 
-            datos[jugador][0]+=1
+            #borrar_pantalla() 
+            datos[jugador][0]+=1 #En caso de que encuentre una ficha le sumamos dos puntos
 
-    #tiempo_jugado_y_intentos(instanteInicial, intentos_totales) #Hay que ponerle los intentos totales del dict
+    ganador(datos, lista_de_jugadores,cant_de_jugadores)
+    tiempo_jugado_y_intentos(instanteInicial) #Hay que ponerle los intentos totales del dict
 
 def main()->None:
     opcion=0
@@ -315,6 +337,7 @@ def main()->None:
 
         if opcion==1:
             datos = ingresar_jugadores(cant_de_jugadores)
+            borrar_pantalla()
             instanteInicial = datetime.now()#al empezar a jugar
             tablero = crear_tablero(tamanio_de_tablero) #Genera el tablero con las fichas ocultas 
             matriz = crear_matriz(tamanio_de_tablero) #Genera la matriz con las letras del juego
