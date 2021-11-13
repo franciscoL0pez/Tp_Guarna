@@ -45,6 +45,10 @@ def menu_elegir_tablero()->int:
     return tamanio_de_tablero
 
 def pares_de_fichas(tamanio_de_tablero:int)->int:
+    '''
+    Pre: Recibe el tamanio del tablero
+    Post: Returna la cantidad de pares que debe haber en el tablero
+    '''   
     cantidad_de_pares = 0 
 
     if tamanio_de_tablero > 2:
@@ -108,7 +112,7 @@ def validar_lugar_disponible(ficha:int,fila:int,columna:int,tamanio_de_tablero:i
         ficha = validar_lugar_disponible(ficha,fila,columna,tamanio_de_tablero,tablero,matriz)
         ficha = matriz[fila][columna]
         tablero[fila][columna] = ficha
-        print(ficha)
+
     return ficha
 
 def cantidad_de_letras(tamanio_de_tablero:int)->int:
@@ -164,6 +168,10 @@ def tiempo_jugado_y_intentos(instanteInicial:float)->None:
     print(f"\nEl juego duro un tiempo de: {tiempo} " )
 
 def cantidad_de_jugadores()->int:
+    '''
+    Pre: Pide una opcion para la cantidad de jugadores
+    Post: Returna la cantidad de jugadores de esta partida
+    '''
     print("\n1. 1 Solo jugador ")
     print("2. 2 Jugadores")
     cant_de_jugadores = int(input("Ingrese una opcion:"))
@@ -176,6 +184,10 @@ def cantidad_de_jugadores()->int:
     return cant_de_jugadores
 
 def sumar_puntos(cant_de_jugadores:int,datos:dict,lista_de_jugadores:list)->int:
+    '''
+    Pre:  -
+    Post: Suma los puntos si el jugador encontro un par
+    '''
     puntos_totales = 0
     if cant_de_jugadores==2:
         puntos_totales = datos[lista_de_jugadores[0]][0] + datos[lista_de_jugadores[1]][0]
@@ -186,6 +198,10 @@ def sumar_puntos(cant_de_jugadores:int,datos:dict,lista_de_jugadores:list)->int:
     return puntos_totales
 
 def datos_de_jugadores(cant_de_jugadores:int,jugador_1:str,jugador_2:str)->None:
+    '''
+    Pre:  -
+    Post: Crea un dic con los datos Puntos - Intentos
+    '''
     datos = {}
     
     if cant_de_jugadores ==2:
@@ -198,6 +214,10 @@ def datos_de_jugadores(cant_de_jugadores:int,jugador_1:str,jugador_2:str)->None:
     return datos
 
 def ingresar_jugadores(cant_de_jugadores:int)->dict:
+    '''
+    Pre:  Pide los nombres de los jugadores
+    Post: Los pone en el diccionario de datos
+    '''
     jugador_1 = ""
     jugador_2 = ""
 
@@ -213,6 +233,10 @@ def ingresar_jugadores(cant_de_jugadores:int)->dict:
     return datos
 
 def jugador_que_incia(datos:dict)->None:
+    '''
+    Pre:  Toma los jugadores que vayan a jugar y los mezcla
+    Post: Returna el jugador que inicia la partida
+    '''
     lista_de_jugadores = []
     
     for jugador in datos:
@@ -224,6 +248,10 @@ def jugador_que_incia(datos:dict)->None:
     return lista_de_jugadores
     
 def cambiar_turno(datos:dict,jugador:str,cant_de_jugadores:int)->None:
+    '''
+    Pre:  -
+    Post: Cambia el turno de los jugadores 
+    '''
     lista_de_jugador = jugador_que_incia(datos)
     
     if cant_de_jugadores ==2:
@@ -243,14 +271,14 @@ def ganador(datos:dict,lista_de_jugadores:list,cant_de_jugadores:int)->str:
     Pre: -
     Post: Compara los puntajes y si igualan compara los intentos  
     '''
-    JUGADOR_1 = lista_de_jugadores[0]
-    JUGADOR_2 = lista_de_jugadores[0]
     if cant_de_jugadores==2:
+        JUGADOR_1 = lista_de_jugadores[0]
+        JUGADOR_2 = lista_de_jugadores[1]
 
         if datos[JUGADOR_1][0] > datos[JUGADOR_2][0]:
             print(f"\nEl jugador {JUGADOR_1} gano la partida y realizo {datos[JUGADOR_1][1]} intentos")
         
-        if datos[JUGADOR_1][0] < datos[JUGADOR_2][0]:
+        elif datos[JUGADOR_1][0] < datos[JUGADOR_2][0]:
             print(f"\nEl jugador {JUGADOR_2} gano la partida y realizo {datos[JUGADOR_2][1]} intentos")
 
         else:
@@ -260,9 +288,8 @@ def ganador(datos:dict,lista_de_jugadores:list,cant_de_jugadores:int)->str:
 
             else:
                 print(f"\nEl ganador fue {JUGADOR_1} con una cantidad de intentos de {datos[JUGADOR_1][1]}")
-
     else:
-        print(f"\nHas ganado {JUGADOR_1} tuviste una cantidad de intentos de {datos[JUGADOR_1][1]}") #Si solo juega un jugador
+        print(f"\nHas ganado {lista_de_jugadores[0]} tuviste una cantidad de intentos de {datos[lista_de_jugadores[0]][1]}") #Si solo juega un jugador
 
 def buscar_fichas(matriz:list,tablero:list,instanteInicial:float,tamanio_de_tablero:int,datos:dict,cant_de_jugadores:int)->None:
     '''
@@ -290,7 +317,6 @@ def buscar_fichas(matriz:list,tablero:list,instanteInicial:float,tamanio_de_tabl
         ficha_1 = matriz[fila_1][columna_1] 
         tablero[fila_1][columna_1] = ficha_1
         
-
         imprir_tablero(tablero) 
 
         fila_2 = input("\nEliga otra fila: ")
@@ -314,7 +340,6 @@ def buscar_fichas(matriz:list,tablero:list,instanteInicial:float,tamanio_de_tabl
             borrar_pantalla()
         
         else :
-            #borrar_pantalla() 
             datos[jugador][0]+=1 #En caso de que encuentre una ficha le sumamos dos puntos
 
     ganador(datos, lista_de_jugadores,cant_de_jugadores)
@@ -324,15 +349,12 @@ def main()->None:
     opcion=0
     tamanio_de_tablero = 2 #Establecemos un valor predefinido para el tamaño del tablero
     cant_de_jugadores = 1  
-    while opcion !=7:
+    while opcion !=4:
         print("\n-----MENU PRINCIPAL-----")
         print("1. Empezar a jugar")
         print("2. Elegir tablero ")
         print("3. Elegir cantidad de jugadores ")
-        print("4.")
-        print("5.")
-        print("6.")
-        print("7. Salir.")
+        print("4. Salir.")
         opcion = validar_menu()   
 
         if opcion==1:
@@ -343,7 +365,6 @@ def main()->None:
             matriz = crear_matriz(tamanio_de_tablero) #Genera la matriz con las letras del juego
             buscar_fichas(matriz,tablero,instanteInicial,tamanio_de_tablero,datos,cant_de_jugadores) 
             
-
         elif opcion==2:
             tamanio_de_tablero = menu_elegir_tablero()
     
