@@ -19,7 +19,6 @@ def crear_tablero(tablero_num:int)->list:
     Post: Crea el tablero corto
     '''   
     tablero = [[0 for j in range (tablero_num)]for i in range(tablero_num)]
-
     return tablero
 
 def menu_elegir_tablero()->int:
@@ -99,21 +98,25 @@ def validar_columnas_y_filas(numero:int,tamanio_de_tablero:int)->int:
 
     return (int(numero)-1)
 
-def validar_lugar_disponible(ficha:int,fila:int,columna:int,tamanio_de_tablero:int,tablero:list,matriz:list):
-    ficha = 0
-    ficha_tablero = tablero[fila][columna]
-    
-    while ficha_tablero != 0 and ficha == 0 :
-        print("ERROR ya esta ese lugar tomado")
-        fila = input("Ingrese una fila: ")
+def validar_lugar_disponible(tamanio_de_tablero:int,tablero:list,matriz:list):
+    validar = True
+
+    while validar:
+        fila = input("\nIngrese una fila: ")
         fila = validar_columnas_y_filas(fila,tamanio_de_tablero)
+
         columna = input("\nEliga una columna: ")
         columna = validar_columnas_y_filas(columna,tamanio_de_tablero)
-        ficha = validar_lugar_disponible(ficha,fila,columna,tamanio_de_tablero,tablero,matriz)
-        ficha = matriz[fila][columna]
-        tablero[fila][columna] = ficha
 
-    return ficha
+        if tablero[fila][columna]!=0:
+            print("\nError lugar ya seleccionado, seleccione otra ubicacion")
+        
+        else:
+            ficha = matriz[fila][columna]
+            tablero[fila][columna] = ficha
+            validar = False
+    
+    return ficha,fila,columna
 
 def cantidad_de_letras(tamanio_de_tablero:int)->int:
     '''
@@ -300,38 +303,22 @@ def buscar_fichas(matriz:list,tablero:list,instanteInicial:float,tamanio_de_tabl
     jugador = lista_de_jugadores[0] #Llama al jugador que debe iniciar
     cantidad_de_pares = pares_de_fichas(tamanio_de_tablero) #Dice la cantidad de pares que hay que adivinar
     puntos_totales = 0 #Suma los puntos de los jugadores
-    
+    ficha_1 = 0
+    ficha_2 =0
+
     while cantidad_de_pares > (puntos_totales+1) : #Buscar la forma de que se sumen los dos y en caso de  que sea uno se sume uno solo
         puntos_totales = sumar_puntos(cant_de_jugadores, datos, lista_de_jugadores)
         print(f"Es el turno del jugador: {jugador}")
         imprir_tablero(tablero)
 
-        fila_1 = input("\nIngrese una fila: ")
-        fila_1 = validar_columnas_y_filas(fila_1,tamanio_de_tablero)
-
-        columna_1 = input("\nEliga una columna: ")
-        columna_1 = validar_columnas_y_filas(columna_1,tamanio_de_tablero)
-        
-        ficha_1 = 0
-        ficha_1 = validar_lugar_disponible(ficha_1,fila_1,columna_1,tamanio_de_tablero,tablero,matriz)
-        ficha_1 = matriz[fila_1][columna_1] 
-        tablero[fila_1][columna_1] = ficha_1
+        ficha_1,fila_1,columna_1 = validar_lugar_disponible(tamanio_de_tablero,tablero,matriz)
         
         imprir_tablero(tablero) 
 
-        fila_2 = input("\nEliga otra fila: ")
-        fila_2 = validar_columnas_y_filas(fila_2,tamanio_de_tablero)
-
-        columna_2 = input("\nEliga otra columna: ")
-        columna_2 = validar_columnas_y_filas(columna_2,tamanio_de_tablero)
-        
-        ficha_2 =0
-        ficha_2 = validar_lugar_disponible(ficha_2,fila_2,columna_2,tamanio_de_tablero,tablero,matriz)
-        ficha_2 = matriz[fila_2][columna_2]
-        tablero[fila_2][columna_2] = ficha_2
-        
+        ficha_2,fila_2,columna_2 = validar_lugar_disponible(tamanio_de_tablero,tablero,matriz)
+    
         datos[jugador][1]+=1 #Sumamos siempre un intento al jugador 
-
+    
         if ficha_1 != ficha_2:
             imprir_tablero(tablero)
             tablero[int(fila_1)][int(columna_1)] = 0
