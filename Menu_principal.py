@@ -120,6 +120,7 @@ def validar_columnas_y_filas(numero:int,tamanio_de_tablero:int,fila_columna:int)
         while (not numero.isnumeric()) or ((int(numero)) > (tamanio_de_tablero-1)) or (int(numero) <1) :
             print("\nERROR")
             numero = input("\nEliga un valor que sea un numero y este en el rango: ")
+
     elif tamanio_de_tablero == 3 and fila_columna == 2:
         while (not numero.isnumeric()) or ((int(numero)) > (tamanio_de_tablero+1)) or (int(numero) <1) :
             print("\nERROR")
@@ -206,7 +207,7 @@ def crear_matriz(tamanio_de_tablero:int)->list:
     random.shuffle(matriz)
     return matriz
 
-def tiempo_jugado_y_intentos(instanteInicial:float)->None:
+def tiempo_jugado(instanteInicial:float)->None:
     '''
     Pre: -
     Post: indica cuanto tiempo tomo terminar una partida y cuantos intentos tuvo el usuario 
@@ -315,7 +316,7 @@ def interfaz_1jugador():
     ventana.mainloop()
     return
 #-------------------------------------------------------------------------------#
-def cargar_diccionario_datos(cant_de_jugadores):
+def cargar_diccionario_datos(cant_de_jugadores:int):
     '''
     Pre:  -
     Post: Crea un dic con los datos Puntos - Intentos
@@ -335,14 +336,13 @@ def cargar_diccionario_datos(cant_de_jugadores):
     archivo.close()        
     return datos
 #-------------------------------------------------------------------------------#
-def ingresar_jugadores(cant_de_jugadores):
+def ingresar_jugadores(cant_de_jugadores:int)->dict:
     '''
     Pre:  Pide los nombres de los jugadores por medio de la interfaz grafica
     Post: Los pone en el diccionario de datos
 
     Fede
     '''
-     
     if cant_de_jugadores == 2 :
         interfaz_2jugadores()
 
@@ -434,7 +434,7 @@ def buscar_fichas(matriz:list,tablero:list,instanteInicial:float,tamanio_de_tabl
 
     while cantidad_de_pares > (puntos_totales+1) : #Buscar la forma de que se sumen los dos y en caso de  que sea uno se sume uno solo
         puntos_totales = sumar_puntos(cant_de_jugadores, datos, lista_de_jugadores)
-        print(f"Es el turno del jugador: {jugador}")
+        print(f"\nEs el turno del jugador: {jugador}")
         imprir_tablero(tablero)
 
         ficha_1,fila_1,columna_1 = validar_lugar_disponible(tamanio_de_tablero,tablero,matriz)
@@ -456,7 +456,7 @@ def buscar_fichas(matriz:list,tablero:list,instanteInicial:float,tamanio_de_tabl
             datos[jugador][0]+=1 #En caso de que encuentre una ficha le sumamos dos puntos
 
     ganador(datos, lista_de_jugadores,cant_de_jugadores)
-    tiempo_jugado_y_intentos(instanteInicial) #Hay que ponerle los intentos totales del dict
+    tiempo_jugado(instanteInicial) 
 
 def main()->None:
     opcion=0
@@ -476,6 +476,7 @@ def main()->None:
             instanteInicial = datetime.now()#al empezar a jugar
             tablero = crear_tablero(tamanio_de_tablero) #Genera el tablero con las fichas ocultas 
             matriz = crear_matriz(tamanio_de_tablero) #Genera la matriz con las letras del juego
+            print(matriz)
             buscar_fichas(matriz,tablero,instanteInicial,tamanio_de_tablero,datos,cant_de_jugadores) 
             
         elif opcion==2:
@@ -483,14 +484,5 @@ def main()->None:
     
         elif opcion==3:
             cant_de_jugadores = cantidad_de_jugadores()
-        
-        elif opcion==4:
-            pass
-        
-        elif opcion==5:
-            pass
-        
-        elif opcion==6:
-            pass
-
+    
 main()
