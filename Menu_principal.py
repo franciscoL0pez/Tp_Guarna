@@ -2,6 +2,7 @@ import string
 import random
 import os
 from datetime import datetime
+from tkinter import *
 
 def borrar_pantalla()->None:
     '''
@@ -216,42 +217,101 @@ def sumar_puntos(cant_de_jugadores:int,datos:dict,lista_de_jugadores:list)->int:
         puntos_totales = datos[lista_de_jugadores[0]][0]  
 
     return puntos_totales
-
-def datos_de_jugadores(cant_de_jugadores:int,jugador_1:str,jugador_2:str)->None:
+#------------------------------------------------------------------------------#
+def interfaz_2jugadores():
+    #=======================================#
+    ''' FUNCION INTERNA '''
+    def guardar_datos_2jugadores():
+        archivo = open("usuarios.txt","w")
+        archivo.seek(0)
+        jugador1_info = jugador1.get()
+        jugador2_info = jugador2.get()
+        archivo.write(jugador1_info+'\n')
+        archivo.write(jugador2_info+'\n')
+        archivo.close()
+        boton.config(command=ventana.destroy)
+    #=======================================#
+    ventana = Tk()
+    ventana.title("Prueba")
+    ventana.geometry("300x300")
+    label_jugador=Label(ventana,text = "jugador:", fg ="black", font=("Arial",12))
+    label_jugador.grid(row=1, column=0)
+    label_mensaje=Label(ventana,text = "Para terminar haga doble click en Aceptar.", fg ="grey", font=("Arial",9))
+    label_mensaje.grid(row=5,column=0)
+    jugador1 = StringVar()
+    jugador2 = StringVar()
+    nombre_jugador1 = Entry(ventana, textvariable = jugador1)
+    nombre_jugador1.grid(row=2, column=0)
+    jugador1_info = nombre_jugador1.get()
+    nombre_jugador2 = Entry(ventana, textvariable = jugador2)
+    nombre_jugador2.grid(row=3, column=0)
+    jugador2_info = nombre_jugador2.get()
+    boton = Button(ventana, text="Aceptar", command=guardar_datos_2jugadores)
+    boton.grid(row=4, column = 0)
+    ventana.mainloop()
+    return
+#------------------------------------------------------------------------------#
+def interfaz_1jugador():
+    #=======================================#
+    ''' FUNCION INTERNA '''
+    def guardar_datos_1jugador():
+        archivo = open("usuarios.txt","w")#uso "a" para apendar, lo saque Stackoverflow
+        archivo.seek(0)
+        jugador_info = jugador.get()
+        archivo.write(jugador_info+"\n")
+        archivo.close()
+        boton.config(command=ventana.destroy)
+    #========================================#
+    ventana = Tk()
+    ventana.title("Prueba")
+    ventana.geometry("300x300")
+    label_jugador=Label(ventana,text = "jugador:", fg ="black", font=("Arial",12))
+    label_jugador.grid(row=1, column=0)
+    label_mensaje=Label(ventana,text = "Para terminar haga doble click en Aceptar.", fg ="grey", font=("Arial",9))
+    label_mensaje.grid(row=4,column=0)
+    jugador = StringVar()
+    nombre_jugador = Entry(ventana, textvariable = jugador)
+    nombre_jugador.grid(row=2, column=0)
+    jugador_info = jugador.get()
+    boton = Button(ventana, text="Aceptar", command = guardar_datos_1jugador)
+    boton.grid(row=3, column = 0)
+    ventana.mainloop()
+    return
+#-------------------------------------------------------------------------------#
+def cargar_diccionario_datos(cant_de_jugadores):
     '''
     Pre:  -
     Post: Crea un dic con los datos Puntos - Intentos
     '''
     datos = {}
-    
-    if cant_de_jugadores ==2:
-        datos[jugador_1] = [0,0]
-        datos[jugador_2] = [0,0]
+    archivo = open("usuarios.txt", "r")
+    archivo.seek(0)
+    linea = archivo.readline()
 
-    else:
-        datos[jugador_1] = [0,0]
- 
+    while(linea != ''):
+        jugador = linea.rstrip('\n')
+        datos[jugador] = [0,0]
+        linea = archivo.readline()
+
+    archivo.close()        
     return datos
-
-def ingresar_jugadores(cant_de_jugadores:int)->dict:
+#-------------------------------------------------------------------------------#
+def ingresar_jugadores(cant_de_jugadores):
     '''
-    Pre:  Pide los nombres de los jugadores
+    Pre:  Pide los nombres de los jugadores por medio de la interfaz grafica
     Post: Los pone en el diccionario de datos
     '''
-    jugador_1 = ""
-    jugador_2 = ""
-
+     
     if cant_de_jugadores == 2 :
-        jugador_1 = input("\nIngrese el nombre del jugador 1 :")
-        jugador_2 = input("\nIngrese el nombre del jugador 2 :")
+        interfaz_2jugadores()
 
     if cant_de_jugadores == 1 :
-        jugador_1 = input("Ingrese el nombre del jugador:")
+        interfaz_1jugador()
     
-    datos = datos_de_jugadores(cant_de_jugadores,jugador_1,jugador_2)
+    datos = cargar_diccionario_datos(cant_de_jugadores)
 
     return datos
-
+#-------------------------------------------------------------------------------#
 def jugador_que_incia(datos:dict)->None:
     '''
     Pre:  Toma los jugadores que vayan a jugar y los mezcla
