@@ -18,6 +18,8 @@ def crear_tablero(tablero_num:int)->list:
     '''
     Pre: -
     Post: Crea el tablero corto
+
+    Marco
     '''   
     if tablero_num == 3:
 
@@ -31,6 +33,8 @@ def menu_elegir_tablero()->int:
     '''
     Pre: -
     Post: Configuraciones del juego
+
+    Marco
     ''' 
     print("")
     print("1-Tablero de 4x2")
@@ -53,6 +57,8 @@ def pares_de_fichas(tamanio_de_tablero:int)->int:
     '''
     Pre: Recibe el tamanio del tablero
     Post: Returna la cantidad de pares que debe haber en el tablero
+
+    Marco
     '''   
     cantidad_de_pares = 0 
 
@@ -67,6 +73,12 @@ def pares_de_fichas(tamanio_de_tablero:int)->int:
     return cantidad_de_pares
 
 def imprir_tablero(tablero:list)->None:
+    '''
+    Pre: Recibe el tamanio del tablero
+    Post: Returna la cantidad de pares que debe haber en el tablero
+    
+    Marco
+    '''   
     cont = 1
     print("\nFILA\tCOLUMNAS")
     lim = len(tablero[0])
@@ -85,6 +97,8 @@ def validar_menu()->int:
     '''
     Pre: Pide un numero en un rango
     Post: Te responde si el numero esta en el rango
+
+    Martin
     '''
     numero = input("\nIngrese una opcion: ")                        
     while not numero.isnumeric() or (int(numero)) >7 or (int(numero)) <1 :
@@ -98,7 +112,9 @@ def validar_menu()->int:
 def validar_columnas_y_filas(numero:int,tamanio_de_tablero:int,fila_columna:int)->int:
     '''
     Pre: -
-    Post: Valida que los datos sean numeros y esten en el rango que se pide 
+    Post: Valida que los datos sean numeros y esten en el rango que se pide
+
+    Martin
     '''
     if tamanio_de_tablero == 3 and fila_columna == 1:
         while (not numero.isnumeric()) or ((int(numero)) > (tamanio_de_tablero-1)) or (int(numero) <1) :
@@ -116,6 +132,12 @@ def validar_columnas_y_filas(numero:int,tamanio_de_tablero:int,fila_columna:int)
     return (int(numero)-1)
 
 def validar_lugar_disponible(tamanio_de_tablero:int,tablero:list,matriz:list):
+    '''
+    Pre: Pide una posicion por fila y columnas
+    Post: Valida que las fichas no este ya elegidas
+
+    Martin
+    '''
     validar = True
 
     while validar:
@@ -139,11 +161,15 @@ def cantidad_de_letras(tamanio_de_tablero:int)->int:
     '''
     Pre: -
     Post: Define el tamaño que tiene que tener el tablero de juego  
+
+    Martin
     '''
     if tamanio_de_tablero == 4:
         pares_de_letras = tamanio_de_tablero *  2
+
     elif tamanio_de_tablero == 3:
         pares_de_letras = tamanio_de_tablero+1
+
     else: pares_de_letras = tamanio_de_tablero
 
     return pares_de_letras
@@ -152,6 +178,8 @@ def crear_matriz(tamanio_de_tablero:int)->list:
     '''
     Pre: -
     Post: Crea la matriz con las letras que se necesitan para jugar
+
+    Marco
     '''
 
     letras = string.ascii_letters
@@ -183,6 +211,8 @@ def tiempo_jugado_y_intentos(instanteInicial:float)->None:
     '''
     Pre: -
     Post: indica cuanto tiempo tomo terminar una partida y cuantos intentos tuvo el usuario 
+
+    Fede
     '''
     instanteFinal = datetime.now()
     tiempo = instanteFinal - instanteInicial
@@ -192,6 +222,8 @@ def cantidad_de_jugadores()->int:
     '''
     Pre: Pide una opcion para la cantidad de jugadores
     Post: Returna la cantidad de jugadores de esta partida
+
+    Fede
     '''
     print("\n1. 1 Solo jugador ")
     print("2. 2 Jugadores")
@@ -208,6 +240,8 @@ def sumar_puntos(cant_de_jugadores:int,datos:dict,lista_de_jugadores:list)->int:
     '''
     Pre:  -
     Post: Suma los puntos si el jugador encontro un par
+
+    Fede
     '''
     puntos_totales = 0
     if cant_de_jugadores==2:
@@ -220,7 +254,9 @@ def sumar_puntos(cant_de_jugadores:int,datos:dict,lista_de_jugadores:list)->int:
 #------------------------------------------------------------------------------#
 def interfaz_2jugadores():
     #=======================================#
-    ''' FUNCION INTERNA '''
+    ''' FUNCION INTERNA 
+        Simon
+    '''
     def guardar_datos_2jugadores():
         archivo = open("usuarios.txt","w")
         archivo.seek(0)
@@ -253,7 +289,9 @@ def interfaz_2jugadores():
 #------------------------------------------------------------------------------#
 def interfaz_1jugador():
     #=======================================#
-    ''' FUNCION INTERNA '''
+    ''' FUNCION INTERNA 
+        Simon
+    '''
     def guardar_datos_1jugador():
         archivo = open("usuarios.txt","w")#uso "a" para apendar, lo saque Stackoverflow
         archivo.seek(0)
@@ -282,6 +320,8 @@ def cargar_diccionario_datos(cant_de_jugadores):
     '''
     Pre:  -
     Post: Crea un dic con los datos Puntos - Intentos
+
+    Fede
     '''
     datos = {}
     archivo = open("usuarios.txt", "r")
@@ -300,6 +340,8 @@ def ingresar_jugadores(cant_de_jugadores):
     '''
     Pre:  Pide los nombres de los jugadores por medio de la interfaz grafica
     Post: Los pone en el diccionario de datos
+
+    Fede
     '''
      
     if cant_de_jugadores == 2 :
@@ -316,6 +358,8 @@ def jugador_que_incia(datos:dict)->None:
     '''
     Pre:  Toma los jugadores que vayan a jugar y los mezcla
     Post: Returna el jugador que inicia la partida
+
+    Fran
     '''
     lista_de_jugadores = []
     
@@ -330,7 +374,9 @@ def jugador_que_incia(datos:dict)->None:
 def cambiar_turno(datos:dict,jugador:str,cant_de_jugadores:int)->None:
     '''
     Pre:  -
-    Post: Cambia el turno de los jugadores 
+    Post: Cambia el turno de los jugadores
+
+    Fran 
     '''
     lista_de_jugador = jugador_que_incia(datos)
     
@@ -349,7 +395,9 @@ def cambiar_turno(datos:dict,jugador:str,cant_de_jugadores:int)->None:
 def ganador(datos:dict,lista_de_jugadores:list,cant_de_jugadores:int)->str:
     '''
     Pre: -
-    Post: Compara los puntajes y si igualan compara los intentos  
+    Post: Compara los puntajes y si igualan compara los intentos
+
+    Fran  
     '''
     if cant_de_jugadores==2:
         JUGADOR_1 = lista_de_jugadores[0]
@@ -375,6 +423,8 @@ def buscar_fichas(matriz:list,tablero:list,instanteInicial:float,tamanio_de_tabl
     '''
     Pre: Pide dos posiciones que esten en un rango de posibiladades 
     Post: Te devulve las letras que se hallan en esas posiciones ingresadas 
+
+    Fran
     '''
     lista_de_jugadores = jugador_que_incia(datos) #Mezcla la lista de jugadores para que comience cualquiera
     jugador = lista_de_jugadores[0] #Llama al jugador que debe iniciar
