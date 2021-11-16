@@ -74,8 +74,8 @@ def pares_de_fichas(tamanio_de_tablero:int)->int:
 
 def imprir_tablero(tablero:list)->None:
     '''
-    Pre: Recibe el tamanio del tablero
-    Post: Returna la cantidad de pares que debe haber en el tablero
+    Pre: Recibe el tablero
+    Post: Marca las filas y columnas del tablero
     
     Marco
     '''   
@@ -181,7 +181,6 @@ def crear_matriz(tamanio_de_tablero:int)->list:
 
     Marco
     '''
-
     letras = string.ascii_letters
     matriz = []
     lista_de_letras_1 = []
