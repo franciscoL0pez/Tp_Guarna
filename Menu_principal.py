@@ -18,7 +18,12 @@ def crear_tablero(tablero_num:int)->list:
     Pre: -
     Post: Crea el tablero corto
     '''   
-    tablero = [[0 for j in range (tablero_num)]for i in range(tablero_num)]
+    if tablero_num == 3:
+
+        tablero=[[0 for j in range(tablero_num+1)] for x in range(tablero_num -1)]
+    else:
+        tablero=[[0 for j in range (tablero_num)]for i in range(tablero_num)]
+
     return tablero
 
 def menu_elegir_tablero()->int:
@@ -34,7 +39,7 @@ def menu_elegir_tablero()->int:
     opciones = (int(input("Eliga una opcion: ")))
 
     if opciones == 1:              #Cambiar por el tablero de 4x2   
-        tamanio_de_tablero = 4 
+        tamanio_de_tablero = 3
     
     elif opciones == 2:
         tamanio_de_tablero = 4 
@@ -51,8 +56,10 @@ def pares_de_fichas(tamanio_de_tablero:int)->int:
     cantidad_de_pares = 0 
 
     if tamanio_de_tablero > 2:
-        cantidad_de_pares = tamanio_de_tablero*2
-    
+        if tamanio_de_tablero == 3:
+            cantidad_de_pares = tamanio_de_tablero+1
+        else:
+            cantidad_de_pares = tamanio_de_tablero*2
     else:
         cantidad_de_pares = tamanio_de_tablero
 
@@ -87,14 +94,23 @@ def validar_menu()->int:
 
     return int(numero)
 
-def validar_columnas_y_filas(numero:int,tamanio_de_tablero:int)->int:
+def validar_columnas_y_filas(numero:int,tamanio_de_tablero:int,fila_columna:int)->int:
     '''
     Pre: -
     Post: Valida que los datos sean numeros y esten en el rango que se pide 
     '''
-    while not numero.isnumeric() or (int(numero)) > (tamanio_de_tablero) or int(numero) <1 :
-        print("\nERROR")
-        numero = input("\nEliga un valor que sea un numero y este en el rango: ")
+    if tamanio_de_tablero == 3 and fila_columna == 1:
+        while (not numero.isnumeric()) or ((int(numero)) > (tamanio_de_tablero-1)) or (int(numero) <1) :
+            print("\nERROR")
+            numero = input("\nEliga un valor que sea un numero y este en el rango: ")
+    elif tamanio_de_tablero == 3 and fila_columna == 2:
+        while (not numero.isnumeric()) or ((int(numero)) > (tamanio_de_tablero+1)) or (int(numero) <1) :
+            print("\nERROR")
+            numero = input("\nEliga un valor que sea un numero y este en el rango: ")
+    else:
+        while not numero.isnumeric() or (int(numero)) > (tamanio_de_tablero) or int(numero) <1 :
+            print("\nERROR")
+            numero = input("\nEliga un valor que sea un numero y este en el rango: ")
 
     return (int(numero)-1)
 
@@ -103,10 +119,10 @@ def validar_lugar_disponible(tamanio_de_tablero:int,tablero:list,matriz:list):
 
     while validar:
         fila = input("\nIngrese una fila: ")
-        fila = validar_columnas_y_filas(fila,tamanio_de_tablero)
+        fila = validar_columnas_y_filas(fila,tamanio_de_tablero,1)
 
         columna = input("\nEliga una columna: ")
-        columna = validar_columnas_y_filas(columna,tamanio_de_tablero)
+        columna = validar_columnas_y_filas(columna,tamanio_de_tablero,2)
 
         if tablero[fila][columna]!=0:
             print("\nError lugar ya seleccionado, seleccione otra ubicacion")
@@ -123,9 +139,10 @@ def cantidad_de_letras(tamanio_de_tablero:int)->int:
     Pre: -
     Post: Define el tamaño que tiene que tener el tablero de juego  
     '''
-    if tamanio_de_tablero >2:
+    if tamanio_de_tablero == 4:
         pares_de_letras = tamanio_de_tablero *  2
-    
+    elif tamanio_de_tablero == 3:
+        pares_de_letras = tamanio_de_tablero+1
     else: pares_de_letras = tamanio_de_tablero
 
     return pares_de_letras
@@ -148,7 +165,7 @@ def crear_matriz(tamanio_de_tablero:int)->list:
             lista_de_letras_1.append(letras[i])
             lista_de_letras_2.append(letras[i])
         
-        if len(lista_de_letras_1) == tamanio_de_tablero:
+        if (len(lista_de_letras_1) == tamanio_de_tablero and tamanio_de_tablero != 3) or (tamanio_de_tablero == 3 and len(lista_de_letras_1) == tamanio_de_tablero +1):
             random.shuffle(lista_de_letras_1)
             random.shuffle(lista_de_letras_2)
 
