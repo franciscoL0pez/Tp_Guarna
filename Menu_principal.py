@@ -41,11 +41,8 @@ def menu_elegir_tablero()->int:
     print("2-Tablero de 4x4")
     print("3-Salir(si eliges esta opcion quedara fijado el tablero 2x2)")
     print("")
-    opciones1 = (input("Eliga una opcion: "))
-    while opciones1.isnumeric() == False or int(opciones1) > 3:
-        print("ERROR fuera de rango")
-        opciones = input("Ingrese una opcion:")
-    opciones = int(opciones1)
+    opciones = validacion_jugadores_y_tablero()
+    
     if opciones == 1:              #Cambiar por el tablero de 4x2   
         tamanio_de_tablero = 3
     
@@ -221,6 +218,19 @@ def tiempo_jugado(instanteInicial:float)->None:
     tiempo = instanteFinal - instanteInicial
     print(f"\nEl juego duro un tiempo de: {tiempo} " )
 
+def validacion_jugadores_y_tablero() -> int:
+    """
+    PRE: - 
+    POST: devuelve data validar, que seria el tamaño del tablero o la cantidad de jugadores
+    Martin
+    """
+    data_validar1 = input("Ingrese una opcion:")
+    while data_validar1.isnumeric() == False or int(data_validar1) > 3:
+        print("ERROR fuera de rango")
+        data_validar1 = input("Ingrese una opcion:")
+    data_validar = int(data_validar1)
+    return data_validar
+
 def cantidad_de_jugadores()->int:
     '''
     Pre: Pide una opcion para la cantidad de jugadores
@@ -230,11 +240,8 @@ def cantidad_de_jugadores()->int:
     '''
     print("\n1. 1 Solo jugador ")
     print("2. 2 Jugadores")
-    cant_de_jugadores1 = input("Ingrese una opcion:")
-    while cant_de_jugadores1.isnumeric() == False or int(cant_de_jugadores1) > 2:
-        print("ERROR fuera de rango")
-        cant_de_jugadores1 = input("Ingrese una opcion:")
-    cant_de_jugadores= int(cant_de_jugadores1)
+    print("3. Salir")
+    cant_de_jugadores = validacion_jugadores_y_tablero()
     return cant_de_jugadores
 
 def sumar_puntos(cant_de_jugadores:int,datos:dict,lista_de_jugadores:list)->int:
@@ -485,5 +492,7 @@ def main()->None:
     
         elif opcion==3:
             cant_de_jugadores = cantidad_de_jugadores()
+            if cant_de_jugadores == 3:
+                cant_de_jugadores = 1
     
 main()
