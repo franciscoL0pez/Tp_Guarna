@@ -227,12 +227,10 @@ def cantidad_de_jugadores()->int:
     '''
     print("\n1. 1 Solo jugador ")
     print("2. 2 Jugadores")
-    cant_de_jugadores = int(input("Ingrese una opcion:"))
-
-    if cant_de_jugadores !=1:
-        cant_de_jugadores = 2
-
-    else: cant_de_jugadores = 1 
+    cant_de_jugadores = input("Ingrese una opcion:")
+    while cant_de_jugadores.isnumeric() == False or int(cant_de_jugadores) > 2:
+        print("ERROR fuera de rango")
+        cant_de_jugadores = input("Ingrese una opcion:")
 
     return cant_de_jugadores
 
