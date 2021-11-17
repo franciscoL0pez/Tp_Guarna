@@ -41,8 +41,11 @@ def menu_elegir_tablero()->int:
     print("2-Tablero de 4x4")
     print("3-Salir(si eliges esta opcion quedara fijado el tablero 2x2)")
     print("")
-    opciones = (int(input("Eliga una opcion: ")))
-
+    opciones1 = (input("Eliga una opcion: "))
+    while opciones1.isnumeric() == False or int(opciones1) > 3:
+        print("ERROR fuera de rango")
+        opciones = input("Ingrese una opcion:")
+    opciones = int(opciones1)
     if opciones == 1:              #Cambiar por el tablero de 4x2   
         tamanio_de_tablero = 3
     
@@ -227,11 +230,11 @@ def cantidad_de_jugadores()->int:
     '''
     print("\n1. 1 Solo jugador ")
     print("2. 2 Jugadores")
-    cant_de_jugadores = input("Ingrese una opcion:")
-    while cant_de_jugadores.isnumeric() == False or int(cant_de_jugadores) > 2:
+    cant_de_jugadores1 = input("Ingrese una opcion:")
+    while cant_de_jugadores1.isnumeric() == False or int(cant_de_jugadores1) > 2:
         print("ERROR fuera de rango")
-        cant_de_jugadores = input("Ingrese una opcion:")
-
+        cant_de_jugadores1 = input("Ingrese una opcion:")
+    cant_de_jugadores= int(cant_de_jugadores1)
     return cant_de_jugadores
 
 def sumar_puntos(cant_de_jugadores:int,datos:dict,lista_de_jugadores:list)->int:
