@@ -72,7 +72,7 @@ def pares_de_fichas(tamanio_de_tablero:int)->int:
 
     return cantidad_de_pares
 
-def imprir_tablero(tablero:list)->None:
+def imprimir_tablero(tablero:list)->None:
     '''
     Pre: Recibe el tablero
     Post: Marca las filas y columnas del tablero
@@ -131,6 +131,20 @@ def validar_columnas_y_filas(numero:int,tamanio_de_tablero:int,fila_columna:int)
             numero = input("\nEliga un valor que sea un numero y este en el rango: ")
 
     return (int(numero)-1)
+
+def validacion_jugadores_y_tablero() -> int:
+    """
+    PRE: - 
+    POST: devuelve data validar, que seria el tamaño del tablero o la cantidad de jugadores
+    Martin
+    """
+    data_validar1 = input("Ingrese una opcion:")
+    while data_validar1.isnumeric() == False or int(data_validar1) > 3:
+        print("ERROR fuera de rango")
+        data_validar1 = input("Ingrese una opcion:")
+    data_validar = int(data_validar1)
+    
+    return data_validar
 
 def validar_lugar_disponible(tamanio_de_tablero:int,tablero:list,matriz:list):
     '''
@@ -218,23 +232,11 @@ def tiempo_jugado(instanteInicial:float)->None:
     tiempo = instanteFinal - instanteInicial
     print(f"\nEl juego duro un tiempo de: {tiempo} " )
 
-def validacion_jugadores_y_tablero() -> int:
-    """
-    PRE: - 
-    POST: devuelve data validar, que seria el tamaño del tablero o la cantidad de jugadores
-    Martin
-    """
-    data_validar1 = input("Ingrese una opcion:")
-    while data_validar1.isnumeric() == False or int(data_validar1) > 3:
-        print("ERROR fuera de rango")
-        data_validar1 = input("Ingrese una opcion:")
-    data_validar = int(data_validar1)
-    return data_validar
 
 def cantidad_de_jugadores()->int:
     '''
     Pre: Pide una opcion para la cantidad de jugadores
-    Post: Returna la cantidad de jugadores de esta partida
+    Post Retorna la cantidad de jugadores de esta partida
 
     Fede
     '''
@@ -443,18 +445,18 @@ def buscar_fichas(matriz:list,tablero:list,instanteInicial:float,tamanio_de_tabl
     while cantidad_de_pares > (puntos_totales+1) : #Buscar la forma de que se sumen los dos y en caso de  que sea uno se sume uno solo
         puntos_totales = sumar_puntos(cant_de_jugadores, datos, lista_de_jugadores)
         print(f"\nEs el turno del jugador: {jugador}")
-        imprir_tablero(tablero)
+        imprimir_tablero(tablero)
 
         ficha_1,fila_1,columna_1 = validar_lugar_disponible(tamanio_de_tablero,tablero,matriz)
         
-        imprir_tablero(tablero) 
+        imprimir_tablero(tablero) 
 
         ficha_2,fila_2,columna_2 = validar_lugar_disponible(tamanio_de_tablero,tablero,matriz)
     
         datos[jugador][1]+=1 #Sumamos siempre un intento al jugador 
     
         if ficha_1 != ficha_2:
-            imprir_tablero(tablero)
+            imprimir_tablero(tablero)
             tablero[int(fila_1)][int(columna_1)] = 0
             tablero[int(fila_2)][int(columna_2)] = 0
             jugador = cambiar_turno(datos, jugador,cant_de_jugadores)
@@ -484,7 +486,6 @@ def main()->None:
             instanteInicial = datetime.now()#al empezar a jugar
             tablero = crear_tablero(tamanio_de_tablero) #Genera el tablero con las fichas ocultas 
             matriz = crear_matriz(tamanio_de_tablero) #Genera la matriz con las letras del juego
-            print(matriz)
             buscar_fichas(matriz,tablero,instanteInicial,tamanio_de_tablero,datos,cant_de_jugadores) 
             
         elif opcion==2:
