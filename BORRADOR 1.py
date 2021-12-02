@@ -59,10 +59,11 @@ def validar_ingreso(lista_usuario:list, lista_aprobados:list):
     lista = (archivo_ingresado.readline()).rstrip("\n").split(",")
     nombre_ingresado, contraseña_ingresada = lista[0],lista[1]
 
-    posicion = 0
-
     lista = (archivo_ingresado.readline()).rstrip("\n").split(",")
     archivo_ingresado.close()
+    
+    #Agrego solo el nombre ya que es el dato que nos importa
+    #Ya que solo miramos si el nombre esta duplicado
     
     #Quito el while por que lo estamos ciclaando abajo
         
@@ -75,15 +76,10 @@ def validar_ingreso(lista_usuario:list, lista_aprobados:list):
         if(hay_duplicado != True):
             lista_aprobados.append(agregado)
 
-        posicion = len(lista_usuario)
 
     elif(sigue == True)and(len(lista_aprobados) == 0):
         lista_aprobados.append(agregado)
-        posicion = len(lista_usuario)
 
-    else:
-        posicion += 1
-            
     return lista_aprobados
 #------------------------------------------------------------------------------#
 def comenzar_juego(lista_aprobados:list):
