@@ -89,7 +89,7 @@ def comenzar_juego(lista_aprobados:list):
     return empezar
 #-----------------------------------------------------------------------------#
 #========================== INTERFACES GRAFICAS ==============================#
-def ventana_emergente(parametro):
+def ventana_emergente(parametro:int):
     root = Tk()
     root.deiconify()
     root.withdraw()
@@ -154,5 +154,7 @@ def main():
     while(seguir != True) and (len(lista_de_aprobados)<len(lista_de_usuarios)):
         interfaz_ingreso_datos()
         lista_de_aprobados = validar_ingreso(lista_de_usuarios, lista_de_aprobados)
-        seguir = comenzar_juego(lista_de_aprobados)
+
+        if len(lista_de_aprobados)!=0:
+            seguir = comenzar_juego(lista_de_aprobados)
 main()
