@@ -38,13 +38,13 @@ def usuarios_aprobados(lista_de_usuarios:list,nombre_ingresado:str,contraseña_i
         #En caso contrario el usuario no esta registrado 
         if len(lista_de_usuarios)-1 == i and contador == 0 :
             valido = False
-            messagebox.showerror(message="Usuario o Contraseña invalida.", title="ERROR")
+            variable_trash = ventana_emergente(2)
 
     return valido
 #------------------------------------------------------------------------------#
 def verificar_duplicado(lista_aprobados:list, sub_lista:list):
     if sub_lista in lista_aprobados:  
-        messagebox.showerror(message="Este usuario ya fue ingresado y aprobado.", title="ATENCION")
+        variable_trash = ventana_emergente(1)
         duplicado = True
 
     else:
@@ -83,14 +83,31 @@ def validar_ingreso(lista_usuario:list, lista_aprobados:list):
     return lista_aprobados
 #------------------------------------------------------------------------------#
 def comenzar_juego(lista_aprobados:list):
-    empezar = False
-
-    if len(lista_aprobados) != 0 :
-        empezar = messagebox.askyesno("ATENCION", "EMPEZAR A JUGAR?")
+    
+    empezar = ventana_emergente(3)
 
     return empezar
 #-----------------------------------------------------------------------------#
-#================================ INTERFAZ ===================================#
+#========================== INTERFACES GRAFICAS ==============================#
+def ventana_emergente(parametro):
+    root = Tk()
+    root.deiconify()
+    root.withdraw()
+
+    if(parametro == 1):
+        messagebox.showerror(message="Este usuario ya fue ingresado y aprobado.", title="ATENCION")
+        comenzar = None
+
+    elif(parametro == 2):
+        messagebox.showerror(message="Usuario o Contraseña invalida.", title="ERROR")
+        comenzar = None
+
+    else:
+        comenzar = messagebox.askyesno("ATENCION", "EMPEZAR A JUGAR?")
+    root.destroy()
+
+    return comenzar
+#-----------------------------------------------------------------------------#
 def interfaz_ingreso_datos():
     #=======================================#
     ''' FUNCION INTERNA '''
