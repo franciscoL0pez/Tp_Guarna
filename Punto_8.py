@@ -1,73 +1,133 @@
+#============================== IMPORTACIONES ================================#
+import tkinter
 from tkinter import *
 from tkinter import messagebox
-def leer_registro(archivo_ingresado:str)->list:
-    with open(archivo_ingresado, "r") as archivo:
-        lista_de_usuarios = []
-        for linea in archivo:
-            linea = linea.rstrip("\n").split(",")
-            lista_de_usuarios.append(linea)
-
-    return lista_de_usuarios
-
-def leer_jugadores_ingresados():
-    jugadores = open('Jug_ingresados.csv','r')
-    linea = jugadores.readline()
-
+#================================ FUNCIONES ==================================#
+#-----------------------------------------------------------------------------#
+def leer_archivo(linea:str):
     if linea:
-        devolver = linea.rstrip("\n").split(",")
+        lista = linea.rstrip("\n").split(',')
+    else:
+        lista = ""
+
+    return lista
+#-----------------------------------------------------------------------------#
+def crear_lista_usuarios(archivo_registro, lista_registro:list):
+    linea_registro = archivo_registro.readline()
+    sub_lista_registro = leer_archivo(linea_registro)
+
+    while(sub_lista_registro != ""):
+        lista_registro.append(sub_lista_registro)
+        linea_registro = archivo_registro.readline()
+        sub_lista_registro = leer_archivo(linea_registro)
+
+    return lista_registro
+#-----------------------------------------------------------------------------#
+def usuarios_aprobados(lista_de_usuarios:list,nombre_ingresado:str,contraseña_ingresada:str,lista_de_aprobados:list)->bool:
+    contador = 0 
+    valido = None
+    
+    #Reviso toda la lista
+    for i in range(len(lista_de_usuarios)):
+        
+        #Miro si hay coincidencias
+        if nombre_ingresado == lista_de_usuarios[i][0] and contraseña_ingresada == lista_de_usuarios[i][1]:
+            contador += 1 
+            valido = True
+        
+        #En caso contrario el usuario no esta registrado 
+        if len(lista_de_usuarios)-1 == i and contador == 0 :
+            valido = False
+            variable_trash = ventana_emergente(2)
+
+    return valido
+#------------------------------------------------------------------------------#
+def verificar_duplicado(lista_aprobados:list, sub_lista:list):
+    if sub_lista in lista_aprobados:  
+        variable_trash = ventana_emergente(1)
+        duplicado = True
 
     else:
-        devolver = "","","",""
+        duplicado = False
 
-    return devolver
+    return duplicado
+#-----------------------------------------------------------------------------#
+def validar_ingreso(lista_usuario:list, lista_aprobados:list): 
+    archivo_ingresado = open("Jug_ingresados.csv", "r")
+    archivo_ingresado.seek(0)
 
-def validar_ingreso(nombre:str,clave:str,lista_de_usuarios:list,lista_de_validados:list)->None:
-    '''
-    Comparo el usuario y la contraseña que se ingreso en Jug_ingresados.csv y valido que este en los usuarios registrados
-    si esta en los usuarios registrados lo meto en la lista de usuarios_validados
-    '''
-    USUARIOS = 0
-    CONTRASENIA = 1
+    lista = (archivo_ingresado.readline()).rstrip("\n").split(",")
+    nombre_ingresado, contraseña_ingresada = lista[0],lista[1]
 
-    for i in range(len(lista_de_usuarios)):
+    lista = (archivo_ingresado.readline()).rstrip("\n").split(",")
+    archivo_ingresado.close()
+    
+    #Agrego solo el nombre ya que es el dato que nos importa
+    #Ya que solo miramos si el nombre esta duplicado
+    
+    #Quito el while por que lo estamos ciclaando abajo
+        
+    sigue = usuarios_aprobados(lista_usuario, nombre_ingresado, contraseña_ingresada, lista_aprobados)
+    agregado = nombre_ingresado
 
-        if nombre == lista_de_usuarios[i][USUARIOS] and clave == lista_de_usuarios[i][CONTRASENIA]: 
+    if(sigue == True)and(len(lista_aprobados) != 0):
+        hay_duplicado = verificar_duplicado(lista_aprobados, agregado)
 
-            if nombre not in lista_de_validados:
-                lista_de_validados.append(nombre)
+        if(hay_duplicado != True):
+            lista_aprobados.append(agregado)
 
-            else: print("\nEse usuario ya se ingreso anteriormente!")
 
-    if nombre not in lista_de_validados:
-        print("\nError al ingresar usuario o contraseña")
+    elif(sigue == True)and(len(lista_aprobados) == 0):
+        lista_aprobados.append(agregado)
 
-def terminar_de_validar(lista_de_usuarios:list)->None:
-    lista_de_validados = [] 
-    nombre,clave = leer_jugadores_ingresados()
-
-    validar_ingreso(nombre, clave, lista_de_usuarios,lista_de_validados)
-
-    return lista_de_validados
+    return lista_aprobados
 #------------------------------------------------------------------------------#
+def comenzar_juego(lista_aprobados:list):
+    
+    empezar = ventana_emergente(3)
+
+    return empezar
+#-----------------------------------------------------------------------------#
+#========================== INTERFACES GRAFICAS ==============================#
+def ventana_emergente(parametro:int):
+    root = Tk()
+    root.deiconify()
+    root.withdraw()
+
+    if(parametro == 1):
+        messagebox.showerror(message="Este usuario ya fue ingresado y aprobado.", title="ATENCION")
+        comenzar = None
+
+    elif(parametro == 2):
+        messagebox.showerror(message="Usuario o Contraseña invalida.", title="ERROR")
+        comenzar = None
+
+    else:
+        comenzar = messagebox.askyesno("ATENCION", "EMPEZAR A JUGAR?")
+    root.destroy()
+
+    return comenzar
+#-----------------------------------------------------------------------------#
 def interfaz_ingreso_datos():
     #=======================================#
     ''' FUNCION INTERNA '''
     def guardar_datos():
-        archivo = open("Jug_ingresados.csv","a")
+        archivo = open("Jug_ingresados.csv","w")
         archivo.seek(0)
         jugador_info = nombre_jugador.get()
         contraseña_info = contraseña_ingresada.get()
         cadena = jugador_info+','+contraseña_info
         archivo.write(cadena)
         archivo.close()
-        ventana.destroy()
+        boton_ingreso.config(command=ventana.destroy)
+
     #=======================================#
     ventana = Tk()
     ventana.title("MEMOTEST")
     ventana.geometry("300x125")
-    label_jugador=Label(ventana,text = "jugador:", fg ="black", font=("Arial",12))
+    label_jugador = Label(ventana,text = "jugador:", fg ="black", font=("Arial",12))
     label_jugador.grid(row=1, column=0)
-    label_contraseña= Label(ventana,text = "contraseña:", fg ="black", font=("Arial",12))
+    label_contraseña = Label(ventana,text = "contraseña:", fg ="black", font=("Arial",12))
     label_contraseña.grid(row=2, column=0)
     jugador = StringVar()
     contraseña = StringVar()
@@ -80,12 +140,21 @@ def interfaz_ingreso_datos():
     boton_ingreso = Button(ventana, text="Ingresar jugador", command=guardar_datos)
     boton_ingreso.grid(row=5, column = 2)
     ventana.mainloop()
-    return
-        
-def main()->None:
     
-    lista_de_usuarios = leer_registro("Registro.csv")
-    interfaz_ingreso_datos()
-    lista_de_validados = terminar_de_validar(lista_de_usuarios)
+    return 
+#-----------------------------------------------------------------------------#
+def main():
+    lista_de_aprobados = []
+    lista_de_usuarios = []
+    archivo_Registro = open("Registro.csv","r")
+    lista_de_usuarios = crear_lista_usuarios(archivo_Registro, lista_de_usuarios)
+    archivo_Registro.close()
+    seguir = False
 
+    while(seguir != True) and (len(lista_de_aprobados)<len(lista_de_usuarios)):
+        interfaz_ingreso_datos()
+        lista_de_aprobados = validar_ingreso(lista_de_usuarios, lista_de_aprobados)
+
+        if len(lista_de_aprobados)!=0:
+            seguir = comenzar_juego(lista_de_aprobados)
 main()
