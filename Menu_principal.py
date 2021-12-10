@@ -474,8 +474,7 @@ def archivo_configuracion(tamanio_de_tablero,cant_de_jugadores):
     """
     # supongo que lo pisa asi no lo tengo que borrar
     
-    print(tamanio_de_tablero)
-    print(cant_de_jugadores)
+    
     contador = 0
     reiniciar_archivo = "False"
     repetir = input("quiere repetir (s/n)")
