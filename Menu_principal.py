@@ -243,14 +243,12 @@ def sumar_puntos(cant_de_jugadores:int,datos:dict,lista_de_jugadores:list)->int:
 
     Fede
     '''
-    #Cambiar cant de jugadores
+    
     puntos_totales = 0
-    if cant_de_jugadores==2:
-        puntos_totales = datos[lista_de_jugadores[0]][0] + datos[lista_de_jugadores[1]][0]
-
-    else:
-        puntos_totales = datos[lista_de_jugadores[0]][0]  
-
+    print(cant_de_jugadores)
+    
+    puntos_totales = datos[lista_de_jugadores[(cant_de_jugadores-1)]][0]
+     
     return puntos_totales
 #-------------------------------------------------------------------------------#
 
