@@ -3,6 +3,8 @@ import random
 import os
 from datetime import datetime
 from tkinter import *
+import Registro
+import Login
 
 def borrar_pantalla()->None:
     '''
@@ -221,6 +223,8 @@ def crear_matriz(tamanio_de_tablero:int)->list:
     random.shuffle(matriz)
     return matriz
 
+#Hasta aca queda asi el programa
+
 def tiempo_jugado(instanteInicial:float)->None:
     '''
     Pre: -
@@ -232,20 +236,6 @@ def tiempo_jugado(instanteInicial:float)->None:
     tiempo = instanteFinal - instanteInicial
     print(f"\nEl juego duro un tiempo de: {tiempo} " )
 
-
-def cantidad_de_jugadores()->int:
-    '''
-    Pre: Pide una opcion para la cantidad de jugadores
-    Post Retorna la cantidad de jugadores de esta partida
-
-    Fede
-    '''
-    print("\n1. 1 Solo jugador ")
-    print("2. 2 Jugadores")
-    print("3. Salir")
-    cant_de_jugadores = validacion_jugadores_y_tablero()
-    return cant_de_jugadores
-
 def sumar_puntos(cant_de_jugadores:int,datos:dict,lista_de_jugadores:list)->int:
     '''
     Pre:  -
@@ -253,6 +243,7 @@ def sumar_puntos(cant_de_jugadores:int,datos:dict,lista_de_jugadores:list)->int:
 
     Fede
     '''
+    #Cambiar cant de jugadores
     puntos_totales = 0
     if cant_de_jugadores==2:
         puntos_totales = datos[lista_de_jugadores[0]][0] + datos[lista_de_jugadores[1]][0]
@@ -261,72 +252,10 @@ def sumar_puntos(cant_de_jugadores:int,datos:dict,lista_de_jugadores:list)->int:
         puntos_totales = datos[lista_de_jugadores[0]][0]  
 
     return puntos_totales
-#------------------------------------------------------------------------------#
-def interfaz_2jugadores():
-    #=======================================#
-    ''' FUNCION INTERNA 
-        Simon
-    '''
-    def guardar_datos_2jugadores():
-        archivo = open("usuarios.txt","w")
-        archivo.seek(0)
-        jugador1_info = jugador1.get()
-        jugador2_info = jugador2.get()
-        archivo.write(jugador1_info+'\n')
-        archivo.write(jugador2_info+'\n')
-        archivo.close()
-        boton.config(command=ventana.destroy)
-    #=======================================#
-    ventana = Tk()
-    ventana.title("Prueba")
-    ventana.geometry("300x300")
-    label_jugador=Label(ventana,text = "jugador:", fg ="black", font=("Arial",12))
-    label_jugador.grid(row=1, column=0)
-    label_mensaje=Label(ventana,text = "Para terminar haga doble click en Aceptar.", fg ="grey", font=("Arial",9))
-    label_mensaje.grid(row=5,column=0)
-    jugador1 = StringVar()
-    jugador2 = StringVar()
-    nombre_jugador1 = Entry(ventana, textvariable = jugador1)
-    nombre_jugador1.grid(row=2, column=0)
-    jugador1_info = nombre_jugador1.get()
-    nombre_jugador2 = Entry(ventana, textvariable = jugador2)
-    nombre_jugador2.grid(row=3, column=0)
-    jugador2_info = nombre_jugador2.get()
-    boton = Button(ventana, text="Aceptar", command=guardar_datos_2jugadores)
-    boton.grid(row=4, column = 0)
-    ventana.mainloop()
-    return
-#------------------------------------------------------------------------------#
-def interfaz_1jugador():
-    #=======================================#
-    ''' FUNCION INTERNA 
-        Simon
-    '''
-    def guardar_datos_1jugador():
-        archivo = open("usuarios.txt","w")#uso "a" para apendar, lo saque Stackoverflow
-        archivo.seek(0)
-        jugador_info = jugador.get()
-        archivo.write(jugador_info+"\n")
-        archivo.close()
-        boton.config(command=ventana.destroy)
-    #========================================#
-    ventana = Tk()
-    ventana.title("Prueba")
-    ventana.geometry("300x300")
-    label_jugador=Label(ventana,text = "jugador:", fg ="black", font=("Arial",12))
-    label_jugador.grid(row=1, column=0)
-    label_mensaje=Label(ventana,text = "Para terminar haga doble click en Aceptar.", fg ="grey", font=("Arial",9))
-    label_mensaje.grid(row=4,column=0)
-    jugador = StringVar()
-    nombre_jugador = Entry(ventana, textvariable = jugador)
-    nombre_jugador.grid(row=2, column=0)
-    jugador_info = jugador.get()
-    boton = Button(ventana, text="Aceptar", command = guardar_datos_1jugador)
-    boton.grid(row=3, column = 0)
-    ventana.mainloop()
-    return
 #-------------------------------------------------------------------------------#
-def cargar_diccionario_datos(cant_de_jugadores:int):
+
+#-------------------------------------------------------------------------------#
+def cargar_diccionario_datos(lista_aprobados):
     '''
     Pre:  -
     Post: Crea un dic con los datos Puntos - Intentos
@@ -334,34 +263,14 @@ def cargar_diccionario_datos(cant_de_jugadores:int):
     Fede
     '''
     datos = {}
-    archivo = open("usuarios.txt", "r")
-    archivo.seek(0)
-    linea = archivo.readline()
 
-    while(linea != ''):
-        jugador = linea.rstrip('\n')
-        datos[jugador] = [0,0]
-        linea = archivo.readline()
-
-    archivo.close()        
+    for jugador in lista_aprobados:
+        if jugador not in datos:
+            datos[jugador]= [0,0]
+            
     return datos
 #-------------------------------------------------------------------------------#
-def ingresar_jugadores(cant_de_jugadores:int)->dict:
-    '''
-    Pre:  Pide los nombres de los jugadores por medio de la interfaz grafica
-    Post: Los pone en el diccionario de datos
 
-    Fede
-    '''
-    if cant_de_jugadores == 2 :
-        interfaz_2jugadores()
-
-    if cant_de_jugadores == 1 :
-        interfaz_1jugador()
-    
-    datos = cargar_diccionario_datos(cant_de_jugadores)
-
-    return datos
 #-------------------------------------------------------------------------------#
 def jugador_que_incia(datos:dict)->None:
     '''
@@ -379,27 +288,6 @@ def jugador_que_incia(datos:dict)->None:
     random.choice(lista_de_jugadores)
 
     return lista_de_jugadores
-    
-def cambiar_turno(datos:dict,jugador:str,cant_de_jugadores:int)->None:
-    '''
-    Pre:  -
-    Post: Cambia el turno de los jugadores
-
-    Fran 
-    '''
-    lista_de_jugador = jugador_que_incia(datos)
-    
-    if cant_de_jugadores ==2:
-        if jugador==lista_de_jugador[0]:
-            jugador = lista_de_jugador[1]
-
-        else:
-            jugador = lista_de_jugador[0]
-
-    else : 
-        jugador == lista_de_jugador[0]
-
-    return jugador
 
 def ganador(datos:dict,lista_de_jugadores:list,cant_de_jugadores:int)->str:
     '''
@@ -441,6 +329,7 @@ def buscar_fichas(matriz:list,tablero:list,instanteInicial:float,tamanio_de_tabl
     puntos_totales = 0 #Suma los puntos de los jugadores
     ficha_1 = 0
     ficha_2 =0
+    variable = 0 
 
     while cantidad_de_pares > (puntos_totales+1) : #Buscar la forma de que se sumen los dos y en caso de  que sea uno se sume uno solo
         puntos_totales = sumar_puntos(cant_de_jugadores, datos, lista_de_jugadores)
@@ -459,7 +348,15 @@ def buscar_fichas(matriz:list,tablero:list,instanteInicial:float,tamanio_de_tabl
             imprimir_tablero(tablero)
             tablero[int(fila_1)][int(columna_1)] = 0
             tablero[int(fila_2)][int(columna_2)] = 0
-            jugador = cambiar_turno(datos, jugador,cant_de_jugadores)
+            
+            if variable < cant_de_jugadores and len (lista_de_jugadores) > 1 :
+                variable += 1 
+                jugador = lista_de_jugadores[variable]
+                
+            else:
+                variable = 0
+                jugador  = lista_de_jugadores[variable]
+
             borrar_pantalla()
         
         else :
@@ -467,13 +364,13 @@ def buscar_fichas(matriz:list,tablero:list,instanteInicial:float,tamanio_de_tabl
 
     ganador(datos, lista_de_jugadores,cant_de_jugadores)
     tiempo_jugado(instanteInicial)
+    
 def archivo_configuracion(tamanio_de_tablero,cant_de_jugadores):
     """
     PRE: recibe el tamaño de tablero y cantidad de jugadores por parametro 
     POST:devuelve un archivo con todos lo datos ingresados y si se reinicio la partida
     """
     # supongo que lo pisa asi no lo tengo que borrar
-    
     
     contador = 0
     reiniciar_archivo = "False"
@@ -484,6 +381,7 @@ def archivo_configuracion(tamanio_de_tablero,cant_de_jugadores):
     else:
         contador = 0
     if contador != 6:
+        
         cant_fichas = tamanio_de_tablero * tamanio_de_tablero
         with open ("configuracion.csv","w") as archivo_config:
             archivo_config.write("CANTIDAD_FICHAS" + ", " + str(cant_fichas) + "\n")
@@ -492,40 +390,39 @@ def archivo_configuracion(tamanio_de_tablero,cant_de_jugadores):
             archivo_config.write("REINICIAR_ARCHIV0_PARTIDAS"+ ", " + reiniciar_archivo + "\n")
     else :
         print("su partida se repitio mas de 5 veces sus datos no seran cargados")
-    
-        
-        
-    
-    
 
 def main()->None:
     opcion=0
+    lista_de_usuarios = Login.usuarios() #Sacar desp por que esta para no hacer registros
     tamanio_de_tablero = 2 #Establecemos un valor predefinido para el tamaño del tablero
-    cant_de_jugadores = 1  
+    cant_de_jugadores = 1
     while opcion !=4:
         print("\n-----MENU PRINCIPAL-----")
         print("1. Empezar a jugar")
         print("2. Elegir tablero ")
-        print("3. Elegir cantidad de jugadores ")
+        print("3- Registrase")
         print("4. Salir.")
         opcion = validar_menu()   
 
         if opcion==1:
-            datos = ingresar_jugadores(cant_de_jugadores)
-            borrar_pantalla()
-            instanteInicial = datetime.now()#al empezar a jugar
-            tablero = crear_tablero(tamanio_de_tablero) #Genera el tablero con las fichas ocultas 
-            matriz = crear_matriz(tamanio_de_tablero) #Genera la matriz con las letras del juego
-            buscar_fichas(matriz,tablero,instanteInicial,tamanio_de_tablero,datos,cant_de_jugadores) 
-            archivo_configuracion(tamanio_de_tablero,cant_de_jugadores)
-            
+            if len(lista_de_usuarios) > 1 : #Pedimos que al menos tenga 1 jugador registrado
+ 
+                lista_aprobados = Login.jugadores_aprobados(lista_de_usuarios)
+                datos = cargar_diccionario_datos(lista_aprobados)
+                #borrar_pantalla()
+                instanteInicial = datetime.now()#al empezar a jugar
+                tablero = crear_tablero(tamanio_de_tablero) #Genera el tablero con las fichas ocultas 
+                matriz = crear_matriz(tamanio_de_tablero) #Genera la matriz con las letras del juego
+                buscar_fichas(matriz,tablero,instanteInicial,tamanio_de_tablero,datos,cant_de_jugadores) 
+                archivo_configuracion(tamanio_de_tablero,cant_de_jugadores)
+            else:
+                print("Debes registrar a menos 1 jugador")
+
         elif opcion==2:
             tamanio_de_tablero = menu_elegir_tablero()
-    
-        elif opcion==3:
-            cant_de_jugadores = cantidad_de_jugadores()
-            if cant_de_jugadores == 3:
-                cant_de_jugadores = 1
         
-        
+        elif opcion==3 :
+            Registro.registro()
+            lista_de_usuarios = Login.usuarios()
+            cant_de_jugadores = len(lista_de_usuarios)
 main()
