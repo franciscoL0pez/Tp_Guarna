@@ -296,6 +296,7 @@ def ganador(datos:dict,lista_de_jugadores:list,cant_de_jugadores:int)->str:
 
     Fran  
     '''
+    #Esta funcion hay que cambiarla por la funcion de marcos
     if cant_de_jugadores==2:
         JUGADOR_1 = lista_de_jugadores[0]
         JUGADOR_2 = lista_de_jugadores[1]
@@ -349,7 +350,7 @@ def buscar_fichas(matriz:list,tablero:list,instanteInicial:float,tamanio_de_tabl
             tablero[int(fila_1)][int(columna_1)] = 0
             tablero[int(fila_2)][int(columna_2)] = 0
             
-            if variable < cant_de_jugadores and len (lista_de_jugadores) > 1 :
+            if variable <= cant_de_jugadores and len (lista_de_jugadores) > 1 :
                 variable += 1 
                 jugador = lista_de_jugadores[variable]
                 
@@ -374,7 +375,7 @@ def archivo_configuracion(tamanio_de_tablero,cant_de_jugadores):
     
     contador = 0
     reiniciar_archivo = "False"
-    repetir = input("quiere repetir (s/n)")
+    repetir = input("quiere repetir (s/n)?:")
     if repetir == "s":
         contador += 1
         reiniciar_archivo = "True"
@@ -415,6 +416,7 @@ def main()->None:
                 matriz = crear_matriz(tamanio_de_tablero) #Genera la matriz con las letras del juego
                 buscar_fichas(matriz,tablero,instanteInicial,tamanio_de_tablero,datos,cant_de_jugadores) 
                 archivo_configuracion(tamanio_de_tablero,cant_de_jugadores)
+
             else:
                 print("Debes registrar a menos 1 jugador")
 
@@ -422,7 +424,7 @@ def main()->None:
             tamanio_de_tablero = menu_elegir_tablero()
         
         elif opcion==3 :
-            Registro.registro()
+            Registro.main()
             lista_de_usuarios = Login.usuarios()
             cant_de_jugadores = len(lista_de_usuarios)
 main()

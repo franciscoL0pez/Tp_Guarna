@@ -145,7 +145,7 @@ def interfaz_ingreso_datos():
 #-----------------------------------------------------------------------------#
 def usuarios():
     lista_de_usuarios = []
-    archivo_Registro = open("usuarios.csv","r")
+    archivo_Registro = open('usuarios.csv','r')
     lista_de_usuarios = crear_lista_usuarios(archivo_Registro, lista_de_usuarios)
     archivo_Registro.close()
 
