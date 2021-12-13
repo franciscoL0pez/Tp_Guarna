@@ -267,7 +267,6 @@ def cargar_diccionario_datos(lista_aprobados):
     for jugador in lista_aprobados:
         if jugador not in datos:
             datos[jugador]= [0,0]
-            
     return datos
 #-------------------------------------------------------------------------------#
 
@@ -330,9 +329,11 @@ def buscar_fichas(matriz:list,tablero:list,instanteInicial:float,tamanio_de_tabl
     puntos_totales = 0 #Suma los puntos de los jugadores
     ficha_1 = 0
     ficha_2 =0
-    variable = 0 
+    turno = 0 
 
     while cantidad_de_pares > (puntos_totales+1) : #Buscar la forma de que se sumen los dos y en caso de  que sea uno se sume uno solo
+        print("la cant de jugadores",cant_de_jugadores,"la lista",lista_de_jugadores)
+       
         puntos_totales = sumar_puntos(cant_de_jugadores, datos, lista_de_jugadores)
         print(f"\nEs el turno del jugador: {jugador}")
         imprimir_tablero(tablero)
@@ -350,15 +351,15 @@ def buscar_fichas(matriz:list,tablero:list,instanteInicial:float,tamanio_de_tabl
             tablero[int(fila_1)][int(columna_1)] = 0
             tablero[int(fila_2)][int(columna_2)] = 0
             
-            if variable <= cant_de_jugadores and len (lista_de_jugadores) > 1 :
-                variable += 1 
-                jugador = lista_de_jugadores[variable]
+            if turno < (cant_de_jugadores-1) and len (lista_de_jugadores) > 1 :
+                turno += 1 
+                jugador = lista_de_jugadores[turno]
                 
             else:
-                variable = 0
-                jugador  = lista_de_jugadores[variable]
+                turno = 0
+                jugador  = lista_de_jugadores[turno]
 
-            borrar_pantalla()
+            #borrar_pantalla()
         
         else :
             datos[jugador][0]+=1 #En caso de que encuentre una ficha le sumamos dos puntos
@@ -396,7 +397,6 @@ def main()->None:
     opcion=0
     lista_de_usuarios = Login.usuarios() #Sacar desp por que esta para no hacer registros
     tamanio_de_tablero = 2 #Establecemos un valor predefinido para el tamaño del tablero
-    cant_de_jugadores = 1
     while opcion !=4:
         print("\n-----MENU PRINCIPAL-----")
         print("1. Empezar a jugar")
@@ -407,8 +407,8 @@ def main()->None:
 
         if opcion==1:
             if len(lista_de_usuarios) > 1 : #Pedimos que al menos tenga 1 jugador registrado
- 
                 lista_aprobados = Login.jugadores_aprobados(lista_de_usuarios)
+                cant_de_jugadores = len(lista_aprobados) #Definimos la cantidad de jugadores siempre como los que pasen por el login
                 datos = cargar_diccionario_datos(lista_aprobados)
                 #borrar_pantalla()
                 instanteInicial = datetime.now()#al empezar a jugar
