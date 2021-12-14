@@ -150,12 +150,12 @@ def usuarios():
     archivo_Registro.close()
 
     return lista_de_usuarios
-#-----------------------------------------------------------------------------#
 
-def jugadores_aprobados(lista_de_usuarios)->list:
+def jugadores_aprobados(cant_de_jugadores,lista_de_usuarios)->list:
     seguir = False
     lista_de_aprobados = []
-    while(seguir != True) and (len(lista_de_aprobados)<len(lista_de_usuarios)):
+
+    while(seguir != True) and (len(lista_de_aprobados)< cant_de_jugadores ) :
         interfaz_ingreso_datos()
         lista_de_aprobados = validar_ingreso(lista_de_usuarios, lista_de_aprobados)
 

@@ -236,23 +236,24 @@ def tiempo_jugado(instanteInicial:float)->None:
     tiempo = instanteFinal - instanteInicial
     print(f"\nEl juego duro un tiempo de: {tiempo} " )
 
-def sumar_puntos(cant_de_jugadores:int,datos:dict,lista_de_jugadores:list)->int:
+def sumar_puntos(datos:dict)->int:
     '''
     Pre:  -
     Post: Suma los puntos si el jugador encontro un par
 
     Fede
     '''
+    PUNTOS_DEL_JUGADOR = 0
     puntos_totales = 0
-    print(cant_de_jugadores)
-    puntos_totales = datos[lista_de_jugadores[(cant_de_jugadores-1)]][0]
-    print(datos)
-    print(puntos_totales)
+
+    for jugador in datos:
+        puntos_totales += datos[jugador][PUNTOS_DEL_JUGADOR]
+
     return puntos_totales
 #-------------------------------------------------------------------------------#
 
 #-------------------------------------------------------------------------------#
-def cargar_diccionario_datos(lista_aprobados):
+def cargar_diccionario_datos(lista_aprobados:list):
     '''
     Pre:  -
     Post: Crea un dic con los datos Puntos - Intentos
@@ -264,6 +265,7 @@ def cargar_diccionario_datos(lista_aprobados):
     for jugador in lista_aprobados:
         if jugador not in datos:
             datos[jugador]= [0,0]
+
     return datos
 #-------------------------------------------------------------------------------#
 
@@ -344,9 +346,8 @@ def buscar_fichas(matriz:list,tablero:list,instanteInicial:float,tamanio_de_tabl
     turno = 0 
 
     while cantidad_de_pares > (puntos_totales+1) : #Buscar la forma de que se sumen los dos y en caso de  que sea uno se sume uno solo
-        print("la cant de jugadores",cant_de_jugadores,"la lista",lista_de_jugadores)
        
-        puntos_totales = sumar_puntos(cant_de_jugadores, datos, lista_de_jugadores)
+        puntos_totales = sumar_puntos(datos)
         print(f"\nEs el turno del jugador: {jugador}")
         imprimir_tablero(tablero)
 
@@ -434,7 +435,9 @@ def configuraciones()->int:
 def main()->None:
     opcion=0
     lista_de_usuarios = Login.usuarios() #Sacar desp por que esta para no hacer registros
-    contador = 0 
+    cant_de_jugadores, tamanio_de_tablero = configuraciones()
+    borrar_pantalla()
+    
     while opcion !=5:
         print("\n-----MENU PRINCIPAL-----")
         print("1. Empezar a jugar")
@@ -444,21 +447,17 @@ def main()->None:
         print("5- Salir.")
         opcion = validar_menu()   
 
-        if opcion == 1 and contador == 0 :
-            cant_de_jugadores, tamanio_de_tablero = configuraciones()
-
         if opcion == 1 :
 
             if len(lista_de_usuarios) > 1 : #Pedimos que al menos tenga 1 jugador registrado
-                lista_aprobados = Login.jugadores_aprobados(cant_de_jugadores)
+                lista_aprobados = Login.jugadores_aprobados(cant_de_jugadores,lista_de_usuarios)
                 cant_de_jugadores = len(lista_aprobados) #Definimos la cantidad de jugadores actuales
                 datos = cargar_diccionario_datos(lista_aprobados)
-                #borrar_pantalla()
+                borrar_pantalla()
                 instanteInicial = datetime.now()#al empezar a jugar
                 tablero = crear_tablero(tamanio_de_tablero) #Genera el tablero con las fichas ocultas 
                 matriz = crear_matriz(tamanio_de_tablero) #Genera la matriz con las letras del juego
                 buscar_fichas(matriz,tablero,instanteInicial,tamanio_de_tablero,datos,cant_de_jugadores) 
-                archivo_configuracion(tamanio_de_tablero,cant_de_jugadores)
 
             else:
                 print("Debes registrar a menos 1 jugador")
@@ -472,6 +471,4 @@ def main()->None:
         
         elif opcion==4 :
             cant_de_jugadores = cantidad_de_jugadores()
-        
-        contador +=1 
 main()
