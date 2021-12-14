@@ -400,13 +400,13 @@ def archivo_configuracion():
                 for linea in archivo_config:
                     renglon = linea.split(",")
                     if contador == 0:
-                       CANTIDAD_FICHAS = renglon[1]
+                       CANTIDAD_FICHAS = renglon[1].strip("\n")
                     elif contador == 1:
-                        MAXIMO_JUGADORES = renglon[1]
+                        MAXIMO_JUGADORES = renglon[1].strip("\n")
                     elif contador == 2:
-                        MAXIMO_PARTIDAS = renglon[1]
+                        MAXIMO_PARTIDAS = renglon[1].strip("\n")
                     elif contador == 3:
-                        REINICIAR_ARCHIVO_PARTIDAS = renglon[1]
+                        REINICIAR_ARCHIVO_PARTIDAS = renglon[1].strip("\n")
                     contador += 1
         
     except FileNotFoundError :
@@ -422,15 +422,15 @@ def archivo_configuracion():
     else:
         print("\nlos valores establecidos fueron dados por omision ")
 
-    lista_configuracion = [CANTIDAD_FICHAS,MAXIMO_JUGADORES, REINICIAR_ARCHIVO_PARTIDAS]
+    lista_configuracion = [int(CANTIDAD_FICHAS),int(MAXIMO_JUGADORES), REINICIAR_ARCHIVO_PARTIDAS]
 
     return lista_configuracion
 
 def configuraciones()->int:
     informacion_archivo = archivo_configuracion()
-    tamanio_de_tablero = int(informacion_archivo[0]/4) #En caso de que el usuario decida  no configurar nada damos valores predeterminados
-    cant_de_jugadores = (informacion_archivo[1])
-    maximo_de_partidas = informacion_archivo([2])
+    tamanio_de_tablero = int(int(informacion_archivo[0])/4) #En caso de que el usuario decida  no configurar nada damos valores predeterminados
+    cant_de_jugadores = int(informacion_archivo[1])
+    maximo_de_partidas = informacion_archivo[2]
 
     return cant_de_jugadores, tamanio_de_tablero, maximo_de_partidas
 
