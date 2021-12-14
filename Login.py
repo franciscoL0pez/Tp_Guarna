@@ -150,6 +150,7 @@ def usuarios():
     archivo_Registro.close()
 
     return lista_de_usuarios
+#-----------------------------------------------------------------------------#
 
 def jugadores_aprobados(lista_de_usuarios)->list:
     seguir = False

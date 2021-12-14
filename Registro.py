@@ -2,6 +2,52 @@ import csv
 from tkinter import *
 from tkinter import messagebox
 import os
+def mensaje_emergente(parametro):
+    root = Tk()
+    root.deiconify()
+    root.withdraw()
+
+    if(parametro == 1):
+        accion = None
+        messagebox.showerror("ERROR", "Las contraseñas ingresadas son distintas")
+
+    elif(parametro == 2):
+        accion = None
+        messagebox.showerror("ERROR","El nombre de usuario debe contener entre 4 a 15 caracteres")
+
+    elif(parametro == 3):
+        accion = None
+        messagebox.showerror("ERROR","La contrasenia debe contener entre 8 a 12 caracteres")
+
+    elif(parametro == 4):
+        accion = None
+        messagebox.showerror("ERROR","Nombre de usuario existente")
+
+    elif(parametro == 5):
+        accion = None
+        messagebox.showerror("ERROR","Usuario debe estar compuesto de letras, numeros o _")
+
+    elif(parametro == 6):
+        accion = None
+        messagebox.showerror("ERROR","Usuario debe estar compuesto de letras, numeros o _")
+
+    elif(parametro == 7):
+        accion = None
+        messagebox.showerror("ERROR","Contraseña debe estar compuesta de letras, una mayuscula, numeros o guiones ( _ , -)")
+
+    elif(parametro == 8):
+        accion = None
+        messagebox.showerror("ERROR","Contrasenia debe tener alguna minuscula")
+
+    elif(parametro == 9):
+        accion = None
+        messagebox.showerror("ERROR","Contraseña debe tener guiones ( _ , -)")
+
+    elif(parametro == 10):
+        accion = messagebox.askyesno("ATENCION", "Seguir registrando?")
+
+    root.destroy()
+    return accion
 
 def registro():
     #=======================================#
@@ -22,6 +68,7 @@ def registro():
     
     #========================================#
     ventana = Tk()
+    #ventana.deiconify()
     ventana.title("Registro")
     ventana.geometry("320x180")
     ventana.config(bg="grey")
@@ -79,32 +126,32 @@ def validar_registro(lista):
     guiones = ["_","-"]
     
     if contrasenia_info != segunda_contra_info:
-        messagebox.showerror("ERROR", "Las contraseñas ingresadas son distintas")
+        mensaje_emergente(1) 
         
     else:
         if len(usuario_info) > MAX_usuario or len(usuario_info) < MIN_usuario:
-            messagebox.showerror("ERROR","El nombre de usuario debe contener entre 4 a 15 caracteres")
+            mensaje_emergente(2)
             
         elif len(contrasenia_info) > MAX_contrasenia or len(contrasenia_info) < MIN_contrasenia:
-            messagebox.showerror("ERROR","La contrasenia debe contener entre 8 a 12 caracteres")
+            mensaje_emergente(3)
         
         elif usuario_info in archivo:
-            messagebox.showerror("ERROR","Nombre de usuario existente")
+            mensaje_emergente(4)
             
         elif not any(caracter.isalpha() or caracter.isnumeric() or caracter == "_" for caracter in usuario_info):
-            messagebox.showerror("ERROR","Usuario debe estar compuesto de letras, numeros o _")
+            mensaje_emergente(5)
 
         elif not any(caracter.isalpha() or caracter.isnumeric() or caracter in guiones for caracter in contrasenia_info):
-            messagebox.showerror("ERROR","Contraseña debe estar compuesta de letras, numeros o guiones ( _ , -)")
+            mensaje_emergente(6)
 
         elif not any(caracter.isupper() for caracter in contrasenia_info):
-            messagebox.showerror("ERROR","Contraseña debe estar compuesta de letras, numeros o guiones ( _ , -)")
+            mensaje_emergente(7)
             
         elif not any(caracter.islower() for caracter in contrasenia_info):
-            messagebox.showerror("ERROR","Contrasenia debe tener alguna minuscula")
+            mensaje_emergente(8)
             
         elif not any(caracter in guiones for caracter in contrasenia_info):
-            messagebox.showerror("ERROR","Contraseña debe tener guiones ( _ , -)")
+            mensaje_emergente(9)
             
         else:
             archivo.close()
@@ -131,6 +178,6 @@ def main():
         lista_ingreso = abrir_archivo_basura()
         valido = validar_registro(lista_ingreso)
         if valido == True:
-            seguir_validando = messagebox.askyesno("ATENCION", "Seguir registrando?")
+            seguir_validando = mensaje_emergente(10)
             if seguir_validando == True:
                 valido = False
