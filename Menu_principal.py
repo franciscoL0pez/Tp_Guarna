@@ -285,6 +285,19 @@ def jugador_que_incia(datos:dict)->None:
 
     return lista_de_jugadores
 
+def cantidad_de_jugadores()->int:
+
+    data_validar = input("ingrese la cantidad de jugadores : ")
+
+    while data_validar.isnumeric() == False or int(data_validar) < 0:
+        print("Error debe ingresar un numero mayor que 0 ")
+        data_validar = input("Ingrese una opcion: ")
+
+    data_validar = int(data_validar)
+    
+    return data_validar
+
+
 def ganador(datos:dict,lista_de_jugadores:list,cant_de_jugadores:int)->str:
     '''
     Pre: -
@@ -312,6 +325,8 @@ def ganador(datos:dict,lista_de_jugadores:list,cant_de_jugadores:int)->str:
                 print(f"\nEl ganador fue {JUGADOR_1} con una cantidad de intentos de {datos[JUGADOR_1][1]}")
     else:
         print(f"\nHas ganado {lista_de_jugadores[0]} tuviste una cantidad de intentos de {datos[lista_de_jugadores[0]][1]}") #Si solo juega un jugador
+
+
 
 def buscar_fichas(matriz:list,tablero:list,instanteInicial:float,tamanio_de_tablero:int,datos:dict,cant_de_jugadores:int)->None:
     '''
@@ -369,8 +384,6 @@ def archivo_configuracion():
     PRE: recibe el tamaño de tablero y cantidad de jugadores por parametro 
     POST:devuelve un archivo con todos lo datos ingresados y si se reinicio la partida
     """
-    
-    
     CANTIDAD_FICHAS = 16
     MAXIMO_JUGADORES = 2
     MAXIMO_PARTIDAS = 5
@@ -396,35 +409,49 @@ def archivo_configuracion():
         
     except FileNotFoundError :
         
-        print("el archivo no se encontro ")
-    print(f" la cantidad de fichas totales es: { CANTIDAD_FICHAS }")
-    print(f" la cantidad de jugadores es: { MAXIMO_JUGADORES }")
-    print(f" maximo partidas: { MAXIMO_PARTIDAS }")
-    print(f" reinicio de la partida: { REINICIAR_ARCHIVO_PARTIDAS }")
+        print("\nel archivo no se encontro ")
+    print(f"\nla cantidad de fichas totales es: { CANTIDAD_FICHAS }")
+    print(f"\nla cantidad de jugadores es: { MAXIMO_JUGADORES }")
+    print(f"\nmaximo partidas: { MAXIMO_PARTIDAS }")
+    print(f"\nreinicio de la partida: { REINICIAR_ARCHIVO_PARTIDAS }")
     
     if leyo_el_archivo == True:
-        print("los valores establecidos fueron dados por configuracion")
+        print("\nlos valores establecidos fueron dados por configuracion")
     else:
-        print("los valores establecidos fueron dados por omision ")
+        print("\nlos valores establecidos fueron dados por omision ")
 
+    lista_configuracion = [CANTIDAD_FICHAS,MAXIMO_JUGADORES, REINICIAR_ARCHIVO_PARTIDAS]
+
+    return lista_configuracion
+
+def configuraciones()->int:
+    informacion_archivo = archivo_configuracion()
+    tamanio_de_tablero = int(informacion_archivo[0]/4) #En caso de que el usuario decida  no configurar nada damos valores predeterminados
+    cant_de_jugadores = (informacion_archivo[1])
+
+    return cant_de_jugadores, tamanio_de_tablero
 
 def main()->None:
     opcion=0
     lista_de_usuarios = Login.usuarios() #Sacar desp por que esta para no hacer registros
-    tamanio_de_tablero = 2 #Establecemos un valor predefinido para el tamaño del tablero
-    
-    while opcion !=4:
+    contador = 0 
+    while opcion !=5:
         print("\n-----MENU PRINCIPAL-----")
         print("1. Empezar a jugar")
         print("2. Elegir tablero ")
         print("3- Registrase")
-        print("4. Salir.")
+        print("4- Elegir cantidad de jugadores ")
+        print("5- Salir.")
         opcion = validar_menu()   
 
+        if opcion == 1 and contador == 0 :
+            cant_de_jugadores, tamanio_de_tablero = configuraciones()
+
         if opcion == 1 :
+
             if len(lista_de_usuarios) > 1 : #Pedimos que al menos tenga 1 jugador registrado
-                lista_aprobados = Login.jugadores_aprobados(lista_de_usuarios)
-                cant_de_jugadores = len(lista_aprobados) #Definimos la cantidad de jugadores siempre como los que pasen por el login
+                lista_aprobados = Login.jugadores_aprobados(cant_de_jugadores)
+                cant_de_jugadores = len(lista_aprobados) #Definimos la cantidad de jugadores actuales
                 datos = cargar_diccionario_datos(lista_aprobados)
                 #borrar_pantalla()
                 instanteInicial = datetime.now()#al empezar a jugar
@@ -438,10 +465,13 @@ def main()->None:
 
         elif opcion==2:
             tamanio_de_tablero = menu_elegir_tablero()
-        
+
         elif opcion==3 :
             Registro.main()
             lista_de_usuarios = Login.usuarios()
-            cant_de_jugadores = len(lista_de_usuarios)
         
+        elif opcion==4 :
+            cant_de_jugadores = cantidad_de_jugadores()
+        
+        contador +=1 
 main()
