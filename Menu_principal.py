@@ -243,12 +243,11 @@ def sumar_puntos(cant_de_jugadores:int,datos:dict,lista_de_jugadores:list)->int:
 
     Fede
     '''
-    
     puntos_totales = 0
     print(cant_de_jugadores)
-    
     puntos_totales = datos[lista_de_jugadores[(cant_de_jugadores-1)]][0]
-     
+    print(datos)
+    print(puntos_totales)
     return puntos_totales
 #-------------------------------------------------------------------------------#
 
@@ -365,36 +364,55 @@ def buscar_fichas(matriz:list,tablero:list,instanteInicial:float,tamanio_de_tabl
     ganador(datos, lista_de_jugadores,cant_de_jugadores)
     tiempo_jugado(instanteInicial)
     
-def archivo_configuracion(tamanio_de_tablero,cant_de_jugadores):
+def archivo_configuracion():
     """
     PRE: recibe el tamaño de tablero y cantidad de jugadores por parametro 
     POST:devuelve un archivo con todos lo datos ingresados y si se reinicio la partida
     """
-    # supongo que lo pisa asi no lo tengo que borrar
     
-    contador = 0
-    reiniciar_archivo = "False"
-    repetir = input("quiere repetir (s/n)?:")
-    if repetir == "s":
-        contador += 1
-        reiniciar_archivo = "True"
-    else:
-        contador = 0
-    if contador != 6:
+    
+    CANTIDAD_FICHAS = 16
+    MAXIMO_JUGADORES = 2
+    MAXIMO_PARTIDAS = 5
+    REINICIAR_ARCHIVO_PARTIDAS = False
+    
+    leyo_el_archivo = False
+    try:
+    
+        with open ("configuacion.csv","r") as archivo_config:
+                leyo_el_archivo = True
+                contador = 0
+                for linea in archivo_config:
+                    renglon = linea.split(",")
+                    if contador == 0:
+                       CANTIDAD_FICHAS = renglon[1]
+                    elif contador == 1:
+                        MAXIMO_JUGADORES = renglon[1]
+                    elif contador == 2:
+                        MAXIMO_PARTIDAS = renglon[1]
+                    elif contador == 3:
+                        REINICIAR_ARCHIVO_PARTIDAS = renglon[1]
+                    contador += 1
         
-        cant_fichas = tamanio_de_tablero * tamanio_de_tablero
-        with open ("configuracion.csv","w") as archivo_config:
-            archivo_config.write("CANTIDAD_FICHAS" + ", " + str(cant_fichas) + "\n")
-            archivo_config.write("MAXIMO_JUGADORES" + ", " + str(cant_de_jugadores) + "\n")
-            archivo_config.write("MAXIMO_DE_PARTIDAS" + ", " + "5" + "\n")
-            archivo_config.write("REINICIAR_ARCHIV0_PARTIDAS"+ ", " + reiniciar_archivo + "\n")
-    else :
-        print("su partida se repitio mas de 5 veces sus datos no seran cargados")
+    except FileNotFoundError :
+        
+        print("el archivo no se encontro ")
+    print(f" la cantidad de fichas totales es: { CANTIDAD_FICHAS }")
+    print(f" la cantidad de jugadores es: { MAXIMO_JUGADORES }")
+    print(f" maximo partidas: { MAXIMO_PARTIDAS }")
+    print(f" reinicio de la partida: { REINICIAR_ARCHIVO_PARTIDAS }")
+    
+    if leyo_el_archivo == True:
+        print("los valores establecidos fueron dados por configuracion")
+    else:
+        print("los valores establecidos fueron dados por omision ")
+
 
 def main()->None:
     opcion=0
     lista_de_usuarios = Login.usuarios() #Sacar desp por que esta para no hacer registros
     tamanio_de_tablero = 2 #Establecemos un valor predefinido para el tamaño del tablero
+    
     while opcion !=4:
         print("\n-----MENU PRINCIPAL-----")
         print("1. Empezar a jugar")
@@ -403,7 +421,7 @@ def main()->None:
         print("4. Salir.")
         opcion = validar_menu()   
 
-        if opcion==1:
+        if opcion == 1 :
             if len(lista_de_usuarios) > 1 : #Pedimos que al menos tenga 1 jugador registrado
                 lista_aprobados = Login.jugadores_aprobados(lista_de_usuarios)
                 cant_de_jugadores = len(lista_aprobados) #Definimos la cantidad de jugadores siempre como los que pasen por el login
@@ -425,4 +443,5 @@ def main()->None:
             Registro.main()
             lista_de_usuarios = Login.usuarios()
             cant_de_jugadores = len(lista_de_usuarios)
+        
 main()
