@@ -5,7 +5,7 @@ from datetime import datetime
 from tkinter import *
 import Registro
 import Login
-
+import os 
 def borrar_pantalla()->None:
     '''
     Pre: -
@@ -261,10 +261,11 @@ def cargar_diccionario_datos(lista_aprobados:list):
     Fede
     '''
     datos = {}
+    # Puntos-intentos-ganadas
 
     for jugador in lista_aprobados:
         if jugador not in datos:
-            datos[jugador]= [0,0]
+            datos[jugador]= [0,0,0]
 
     return datos
 #-------------------------------------------------------------------------------#
@@ -393,7 +394,7 @@ def archivo_configuracion():
     leyo_el_archivo = False
     try:
     
-        with open ("configuacion.csv","r") as archivo_config:
+        with open ("configuracion.csv","r") as archivo_config:
                 leyo_el_archivo = True
                 contador = 0
                 for linea in archivo_config:
@@ -429,15 +430,16 @@ def configuraciones()->int:
     informacion_archivo = archivo_configuracion()
     tamanio_de_tablero = int(informacion_archivo[0]/4) #En caso de que el usuario decida  no configurar nada damos valores predeterminados
     cant_de_jugadores = (informacion_archivo[1])
+    maximo_de_partidas = informacion_archivo([2])
 
-    return cant_de_jugadores, tamanio_de_tablero
+    return cant_de_jugadores, tamanio_de_tablero, maximo_de_partidas
 
 def main()->None:
     opcion=0
     lista_de_usuarios = Login.usuarios() #Sacar desp por que esta para no hacer registros
-    cant_de_jugadores, tamanio_de_tablero = configuraciones()
+    cant_de_jugadores, tamanio_de_tablero, maximo_de_partidas = configuraciones()
     borrar_pantalla()
-    
+
     while opcion !=5:
         print("\n-----MENU PRINCIPAL-----")
         print("1. Empezar a jugar")

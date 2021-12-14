@@ -2,6 +2,7 @@
 import tkinter
 from tkinter import *
 from tkinter import messagebox
+import os
 #================================ FUNCIONES ==================================#
 #-----------------------------------------------------------------------------#
 def leer_archivo(linea:str):
@@ -162,5 +163,6 @@ def jugadores_aprobados(cant_de_jugadores,lista_de_usuarios)->list:
         if len(lista_de_aprobados)!=0:
             seguir = comenzar_juego(lista_de_aprobados)
 
+    os.remove("Jug_ingresados.csv")
     return lista_de_aprobados
     
