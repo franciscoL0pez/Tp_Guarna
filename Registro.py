@@ -181,3 +181,4 @@ def main():
             seguir_validando = mensaje_emergente(10)
             if seguir_validando == True:
                 valido = False
+main()
