@@ -449,7 +449,6 @@ def main()->None:
     opcion=0
     lista_de_usuarios = Login.usuarios() #Sacar desp por que esta para no hacer registros
     cant_de_jugadores, tamanio_de_tablero, maximo_de_partidas , reiniciar_archivo_partidas = configuraciones()
-    #borrar_pantalla()
     valido = True
     cantidad = 0 
     while opcion !=5:
@@ -467,8 +466,7 @@ def main()->None:
                 lista_aprobados = Login.jugadores_aprobados(cant_de_jugadores,lista_de_usuarios)
                 cant_de_jugadores = len(lista_aprobados) #Definimos la cantidad de jugadores actuales
                 datos = cargar_diccionario_datos(lista_aprobados)
-                borrar_pantalla()
-                print(datos)
+
                 while valido:
                     instanteInicial = datetime.now()#al empezar a jugar
                     tablero = crear_tablero(tamanio_de_tablero) #Genera el tablero con las fichas ocultas 
@@ -482,6 +480,8 @@ def main()->None:
                     
                 etapa9.funcion_etapa9()
                 lista_aprobados = []
+                valido = True
+
             else:
                 print("Debes registrar a menos 1 jugador")
 
