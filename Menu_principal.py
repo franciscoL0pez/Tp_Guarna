@@ -346,6 +346,7 @@ def archivo_configuracion():
     MAXIMO_JUGADORES = 2
     MAXIMO_PARTIDAS = 5
     REINICIAR_ARCHIVO_PARTIDAS = False
+    DATOS_ARCHIVO = 1
     
     leyo_el_archivo = False
     try:
@@ -356,13 +357,13 @@ def archivo_configuracion():
                 for linea in archivo_config:
                     renglon = linea.split(",")
                     if contador == 0:
-                       CANTIDAD_FICHAS = renglon[1].strip("\n")
+                       CANTIDAD_FICHAS = renglon[DATOS_ARCHIVO].strip("\n")
                     elif contador == 1:
-                        MAXIMO_JUGADORES = renglon[1].strip("\n")
+                        MAXIMO_JUGADORES = renglon[DATOS_ARCHIVO].strip("\n")
                     elif contador == 2:
-                        MAXIMO_PARTIDAS = renglon[1].strip("\n")
+                        MAXIMO_PARTIDAS = renglon[DATOS_ARCHIVO].strip("\n")
                     elif contador == 3:
-                        REINICIAR_ARCHIVO_PARTIDAS = renglon[1].strip(" \n")
+                        REINICIAR_ARCHIVO_PARTIDAS = renglon[DATOS_ARCHIVO].strip(" \n")
                     contador += 1
         
     except FileNotFoundError :
@@ -388,12 +389,16 @@ def configuraciones()->int:
     POST: devuelve los parametros iniciales para configurar el juego
     Martin
     '''
+    FICHAS = 0
+    JUGADORES = 1
+    PARTIDAS = 2
+    REINICIO = 3
     informacion_archivo = archivo_configuracion()
 
-    tamanio_de_tablero = int(int(informacion_archivo[0])/4) #En caso de que el usuario decida  no configurar nada damos valores predeterminados
-    cant_de_jugadores = int(informacion_archivo[1])
-    maximo_de_partidas = int(informacion_archivo[2])
-    reiniciar_archivo_partidas = informacion_archivo[3]
+    tamanio_de_tablero = int(int(informacion_archivo[FICHAS])/4) #En caso de que el usuario decida  no configurar nada damos valores predeterminados
+    cant_de_jugadores = int(informacion_archivo[JUGADORES])
+    maximo_de_partidas = int(informacion_archivo[PARTIDAS])
+    reiniciar_archivo_partidas = informacion_archivo[REINICIO]
     
     return tamanio_de_tablero, cant_de_jugadores, maximo_de_partidas, reiniciar_archivo_partidas
 
@@ -406,7 +411,7 @@ def main()->None:
 
     valido = True
     cantidad = 0 
-
+    
     while opcion !=5:
         print("\n-----MENU PRINCIPAL-----")
         print("1. Empezar a jugar")
@@ -423,7 +428,7 @@ def main()->None:
                 cant_de_jugadores = len(lista_aprobados) #Definimos la cantidad de jugadores actuales
                 datos = cargar_diccionario_datos(lista_aprobados)
 
-                while valido and cantidad <5 :
+                while valido and cantidad < 5 :
                     instanteInicial = datetime.now()#al empezar a jugar
                     tablero = crear_tablero(tamanio_de_tablero) #Genera el tablero con las fichas ocultas 
                     matriz = crear_matriz(tamanio_de_tablero) #Genera la matriz con las letras del juego
@@ -436,7 +441,7 @@ def main()->None:
                     
                     cantidad +=1
 
-                    if cantidad <5:
+                    if cantidad < 5:
                         valido = Tabla_Ganadores.imprimir_tabla_ganadores(cantidad, maximo_de_partidas, datos)
 
                     else:
@@ -451,13 +456,13 @@ def main()->None:
             else:
                 print("Debes registrar a menos 1 jugador")
 
-        elif opcion==2:
+        elif opcion == 2:
             tamanio_de_tablero = menu_elegir_tablero()
 
-        elif opcion==3 :
+        elif opcion == 3 :
             Registro.main()
             lista_de_usuarios = Login.usuarios()
         
-        elif opcion==4 :
+        elif opcion == 4 :
             cant_de_jugadores = cantidad_de_jugadores()
 main()
