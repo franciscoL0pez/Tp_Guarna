@@ -11,6 +11,10 @@ instanteFinal2 = instanteFinal.strftime("%X")
 #config = open("configuracion.csv", "r", encoding= "utf-8")
 def funcion_ingresar(datos):
     #print(datos)
+    """
+    Ingresa los datos al archivo.csv
+    Marco
+    """
     with open("archivos.csv", "a") as archivo:
         archivo.write("\n")
         for jugador in datos:
@@ -20,8 +24,10 @@ def funcion_ingresar(datos):
             archivo.write(linea_nueva)
     
 def funcion_etapa9(reiniciar_archivo_partidas):
+    """
+    marco
+    """
     with open("archivos.csv", "r+", encoding="utf-8") as archivo:
-
         archivo_completo = []
         if (reiniciar_archivo_partidas == "False"):
             for line in archivo:
