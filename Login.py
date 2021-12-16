@@ -7,6 +7,7 @@ import os
 #-----------------------------------------------------------------------------#
 def leer_archivo(linea:str)->list:
     '''
+    Fran
     '''
     if linea:
         lista = linea.rstrip("\n").split(',')
@@ -16,6 +17,9 @@ def leer_archivo(linea:str)->list:
     return lista
 #-----------------------------------------------------------------------------#
 def crear_lista_usuarios(archivo_registro, lista_registro:list)->list:
+    '''
+    Fran
+    '''
     linea_registro = archivo_registro.readline()
     sub_lista_registro = leer_archivo(linea_registro)
 
@@ -27,6 +31,9 @@ def crear_lista_usuarios(archivo_registro, lista_registro:list)->list:
     return lista_registro
 #-----------------------------------------------------------------------------#
 def usuarios_aprobados(lista_de_usuarios:list,nombre_ingresado:str,contraseña_ingresada:str,lista_de_aprobados:list)->bool:
+    '''
+    Fran
+    '''
     contador = 0 
     valido = None
     
@@ -46,6 +53,9 @@ def usuarios_aprobados(lista_de_usuarios:list,nombre_ingresado:str,contraseña_i
     return valido
 #------------------------------------------------------------------------------#
 def verificar_duplicado(lista_aprobados:list, sub_lista:list):
+    '''
+    Fran
+    '''
     if sub_lista in lista_aprobados:  
         variable_trash = ventana_emergente(1)
         duplicado = True
@@ -56,6 +66,9 @@ def verificar_duplicado(lista_aprobados:list, sub_lista:list):
     return duplicado
 #-----------------------------------------------------------------------------#
 def validar_ingreso(lista_usuario:list, lista_aprobados:list)->list:
+    '''
+    Fran
+    '''
     archivo_ingresado = open("Jug_ingresados.csv", "r")
     archivo_ingresado.seek(0)
 
@@ -81,6 +94,9 @@ def validar_ingreso(lista_usuario:list, lista_aprobados:list)->list:
     return lista_aprobados
 #------------------------------------------------------------------------------#
 def comenzar_juego(lista_aprobados:list):
+    '''
+    Simon
+    '''
     
     empezar = ventana_emergente(3)
 
@@ -88,6 +104,10 @@ def comenzar_juego(lista_aprobados:list):
 #-----------------------------------------------------------------------------#
 #========================== INTERFACES GRAFICAS ==============================#
 def ventana_emergente(parametro:int): #SIMON 
+    '''
+    Simon
+    '''
+
     root = Tk()
     root.deiconify()
     root.withdraw()
@@ -107,6 +127,9 @@ def ventana_emergente(parametro:int): #SIMON
     return comenzar
 #-----------------------------------------------------------------------------#
 def interfaz_ingreso_datos(): #SIMON  
+    '''
+    Simon
+    '''
     #=======================================#
     ''' FUNCION INTERNA '''
     def guardar_datos():
@@ -142,6 +165,10 @@ def interfaz_ingreso_datos(): #SIMON
     return 
 #-----------------------------------------------------------------------------#
 def usuarios(): #SIMON
+    '''
+    Simon
+    '''
+
     lista_de_usuarios = []
     archivo_Registro = open('usuarios.csv','r')
     lista_de_usuarios = crear_lista_usuarios(archivo_Registro, lista_de_usuarios)
@@ -150,6 +177,10 @@ def usuarios(): #SIMON
     return lista_de_usuarios
 
 def jugadores_aprobados(cant_de_jugadores:int,lista_de_usuarios:list)->list:
+    '''
+    Simon
+    '''
+    
     seguir = False
     lista_de_aprobados = []
 

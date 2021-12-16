@@ -40,6 +40,10 @@ def crear_lista_final(datos):
     return lista_ord
 #------------------------------------------------------------------------------#
 def crear_cadena_tabla(lista):
+    '''
+    Simon
+    
+    '''
     tabla = 'TABLA PUNTAJE\n   ♠-♠-♠\n'
     pos_lista = 0
 
@@ -59,9 +63,12 @@ def crear_cadena_tabla(lista):
     
     return tabla
 #------------------------------------------------------------------------------#
-'''TESTEO DEL PROGRAMA'''
 
 def imprimir_tabla_ganadores(cantidad:int, cantidad_max:int, datos:dict)->bool:
+    '''
+    Simon
+    
+    '''
     lista_ordenada = crear_lista_final(datos) 
     tabla_final = crear_cadena_tabla(lista_ordenada) 
 

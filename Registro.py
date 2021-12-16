@@ -3,6 +3,9 @@ from tkinter import *
 from tkinter import messagebox
 import os
 def mensaje_emergente(parametro):
+    '''
+    Fede
+    '''
     root = Tk()
     root.deiconify()
     root.withdraw()
@@ -51,9 +54,9 @@ def mensaje_emergente(parametro):
 
 def registro():
     #=======================================#
-    ''' FUNCION INTERNA 
+    ''' 
+    Fede
     '''
-
     def guardar_registro():
         archivo_csv = open("archivo_basura.csv","w")
         usuario_info = usuario.get()
@@ -64,9 +67,6 @@ def registro():
         archivo_csv.close()    
         boton.config(command=ventana.destroy)
         
-        
-    
-    #========================================#
     ventana = Tk()
     #ventana.deiconify()
     ventana.title("Registro")
@@ -109,6 +109,9 @@ def registro():
     return
 
 def abrir_archivo_basura():
+    '''
+    Simon
+    '''
     archivo_basura = open("archivo_basura.csv","r")
     lista = archivo_basura.readline().rstrip('\n').split(',')
     archivo_basura.close()
@@ -116,6 +119,9 @@ def abrir_archivo_basura():
     return lista
 
 def validar_registro(lista):
+    '''
+    Fede
+    '''
     valido = False
     archivo = open("usuarios.csv", "r")
     usuario_info,contrasenia_info,segunda_contra_info = lista
@@ -162,6 +168,9 @@ def validar_registro(lista):
 
 #-------------------------------------------------------------------------------#
 def escribir_archivo(usuario, contrasenia):
+    '''
+    Fede
+    '''
     archivo_csv = open("usuarios.csv","a", newline = "")
     archivo = csv.writer(archivo_csv)
     archivo.writerow([usuario, contrasenia])

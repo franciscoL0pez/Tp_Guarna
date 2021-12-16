@@ -380,6 +380,7 @@ def archivo_configuracion():
     """
     PRE: recibe el tamaño de tablero y cantidad de jugadores por parametro 
     POST:devuelve un archivo con todos lo datos ingresados y si se reinicio la partida
+    Martin
     """
     CANTIDAD_FICHAS = 16
     MAXIMO_JUGADORES = 2
@@ -422,6 +423,9 @@ def archivo_configuracion():
     return lista_configuracion
 
 def configuraciones()->int:
+    '''
+    Martin
+    '''
     informacion_archivo = archivo_configuracion()
 
     tamanio_de_tablero = int(int(informacion_archivo[0])/4) #En caso de que el usuario decida  no configurar nada damos valores predeterminados
@@ -468,14 +472,16 @@ def main()->None:
                     
                     etapa9.funcion_ingresar(datos)
                     
-                    valido = Tabla_Ganadores.imprimir_tabla_ganadores(cantidad, maximo_de_partidas, datos)
                     cantidad +=1
+
+                    if cantidad <5:
+                        valido = Tabla_Ganadores.imprimir_tabla_ganadores(cantidad, maximo_de_partidas, datos)
+
+                    else:
+                        print("Llegaste a las 5 partidas, no pudes vover a jugar.")
+
                     datos = cargar_diccionario_datos(lista_aprobados)
                     
-                    if cantidad == 5 :
-                        print("Has alcanzado el numero maximo de partidas!")
-
-
                 lista_aprobados = []
                 valido = True
                 cantidad = 0
