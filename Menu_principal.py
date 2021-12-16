@@ -437,7 +437,7 @@ def main()->None:
                     
                     etapa9.funcion_etapa9(reiniciar_archivo_partidas)
                     
-                    etapa9.funcion_ingresar(datos)
+                    etapa9.funcion_ingresar(datos, reiniciar_archivo_partidas)
                     
                     cantidad +=1
 
@@ -448,7 +448,7 @@ def main()->None:
                         print("Llegaste a las 5 partidas, no pudes vover a jugar.")
 
                     datos = cargar_diccionario_datos(lista_aprobados)
-                    
+                etapa9.resumen()
                 lista_aprobados = []
                 valido = True
                 cantidad = 0
