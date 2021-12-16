@@ -221,17 +221,7 @@ def crear_matriz(tamanio_de_tablero:int)->list:
     random.shuffle(matriz)
     return matriz
 
-#Hasta aca queda asi el programa
 
-def tiempo_jugado(instanteInicial:float)->None:
-    '''
-    Pre: -
-    Post: indica cuanto tiempo tomo terminar una partida y cuantos intentos tuvo el usuario 
-    Fede
-    '''
-    instanteFinal = datetime.now()
-    tiempo = instanteFinal - instanteInicial
-    print(f"\nEl juego duro un tiempo de: {tiempo} " )
 
 def sumar_puntos(datos:dict)->int:
     '''
@@ -295,34 +285,6 @@ def cantidad_de_jugadores()->int:
     return data_validar
 
 
-def ganador(datos:dict,lista_de_jugadores:list,cant_de_jugadores:int)->str:
-    '''
-    Pre: -
-    Post: Compara los puntajes y si igualan compara los intentos
-    Fran  
-    '''
-    #Esta funcion hay que cambiarla por la funcion de marco
-    if cant_de_jugadores==2:
-        JUGADOR_1 = lista_de_jugadores[0]
-        JUGADOR_2 = lista_de_jugadores[1]
-
-        if datos[JUGADOR_1][0] > datos[JUGADOR_2][0]:
-            print(f"\nEl jugador {JUGADOR_1} gano la partida y realizo {datos[JUGADOR_1][1]} intentos")
-        
-        elif datos[JUGADOR_1][0] < datos[JUGADOR_2][0]:
-            print(f"\nEl jugador {JUGADOR_2} gano la partida y realizo {datos[JUGADOR_2][1]} intentos")
-
-        else:
-
-            if datos[JUGADOR_1][1] > datos[JUGADOR_2][1]:
-                print(f"\nEl ganador fue {JUGADOR_2} con una cantidad de intentos de {datos[JUGADOR_2][1]}")
-
-            else:
-                print(f"\nEl ganador fue {JUGADOR_1} con una cantidad de intentos de {datos[JUGADOR_1][1]}")
-    else:
-        print(f"\nHas ganado {lista_de_jugadores[0]} tuviste una cantidad de intentos de {datos[lista_de_jugadores[0]][1]}") #Si solo juega un jugador
-
-
 
 def buscar_fichas(matriz:list,tablero:list,instanteInicial:float,tamanio_de_tablero:int,datos:dict,cant_de_jugadores:int)->None:
     '''
@@ -368,18 +330,16 @@ def buscar_fichas(matriz:list,tablero:list,instanteInicial:float,tamanio_de_tabl
                 turno = 0
                 jugador  = lista_de_jugadores[turno]
 
-            #borrar_pantalla()
+            borrar_pantalla()
         
         else :
             datos[jugador][0]+=1 #En caso de que encuentre una ficha le sumamos dos puntos
 
-    ganador(datos, lista_de_jugadores,cant_de_jugadores)
-    tiempo_jugado(instanteInicial)
     
 def archivo_configuracion():
     """
-    PRE: recibe el tamaño de tablero y cantidad de jugadores por parametro 
-    POST:devuelve un archivo con todos lo datos ingresados y si se reinicio la partida
+    PRE: -
+    POST: Lee el archivo configuracion y devuelve una lista con la informacion del archivo
     Martin
     """
     CANTIDAD_FICHAS = 16
@@ -424,6 +384,8 @@ def archivo_configuracion():
 
 def configuraciones()->int:
     '''
+    PRE: recibe la lista con la informacion del archivo configuracion
+    POST: devuelve los parametros iniciales para configurar el juego
     Martin
     '''
     informacion_archivo = archivo_configuracion()
@@ -439,7 +401,7 @@ def configuraciones()->int:
     
 def main()->None:
     opcion=0
-    lista_de_usuarios = Login.usuarios() #Sacar desp por que esta para no hacer registros
+    lista_de_usuarios = Login.usuarios() 
     tamanio_de_tablero , cant_de_jugadores, maximo_de_partidas , reiniciar_archivo_partidas = configuraciones()
 
     valido = True
