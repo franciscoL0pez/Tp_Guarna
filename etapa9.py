@@ -18,13 +18,11 @@ def funcion_ingresar(datos):
             #print(datos[jugador][1])
             linea_nueva = y + ", " + str(instanteFinal2) + ", " + jugador + ", " + str(datos[jugador][0]) + ", " + str(datos[jugador][1]) + "\n"
             archivo.write(linea_nueva)
-def funcion_etapa9():
-
-    REINICIAR_ARCHIV0_PARTIDAS = False
+def funcion_etapa9(reiniciar_archivo_partidas):
     with open("archivos.csv", "r+", encoding="utf-8") as archivo:
 
-        if not REINICIAR_ARCHIV0_PARTIDAS:
-            archivo_completo = []
+        archivo_completo = []
+        if not reiniciar_archivo_partidas:
             for line in archivo:
                 #print(line)
                 if "," in line:
@@ -34,6 +32,7 @@ def funcion_etapa9():
         if archivo.writable() and archivo.readable():
             with open("archivos.csv", "w", encoding="utf-8") as archivo2:
                 #print("se borro")
+
                 archivo.write("")
         completo2 = []
         for x in archivo_completo:
