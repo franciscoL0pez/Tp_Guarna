@@ -472,13 +472,13 @@ def main()->None:
                     tablero = crear_tablero(tamanio_de_tablero) #Genera el tablero con las fichas ocultas 
                     matriz = crear_matriz(tamanio_de_tablero) #Genera la matriz con las letras del juego
                     buscar_fichas(matriz,tablero,instanteInicial,tamanio_de_tablero,datos,cant_de_jugadores)
+                    etapa9.funcion_etapa9(reiniciar_archivo_partidas)
                     
                     etapa9.funcion_ingresar(datos)
                     valido = Tabla_Ganadores.imprimir_tabla_ganadores(cantidad, maximo_de_partidas, datos)
                     cantidad +=1
                     #datos = cargar_diccionario_datos(lista_aprobados)
                     
-                etapa9.funcion_etapa9()
                 lista_aprobados = []
                 valido = True
 

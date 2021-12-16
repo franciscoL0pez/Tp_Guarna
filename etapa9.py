@@ -22,7 +22,7 @@ def funcion_etapa9(reiniciar_archivo_partidas):
     with open("archivos.csv", "r+", encoding="utf-8") as archivo:
 
         archivo_completo = []
-        if not reiniciar_archivo_partidas:
+        if reiniciar_archivo_partidas:
             for line in archivo:
                 #print(line)
                 if "," in line:
