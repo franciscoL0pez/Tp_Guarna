@@ -6,6 +6,7 @@ import Registro
 import Login
 import os 
 import Tabla_Ganadores
+import etapa9
 
 import tkinter
 from tkinter import *
@@ -313,7 +314,7 @@ def ganador(datos:dict,lista_de_jugadores:list,cant_de_jugadores:int)->str:
 
     Fran  
     '''
-    #Esta funcion hay que cambiarla por la funcion de marcos
+    #Esta funcion hay que cambiarla por la funcion de marco
     if cant_de_jugadores==2:
         JUGADOR_1 = lista_de_jugadores[0]
         JUGADOR_2 = lista_de_jugadores[1]
@@ -467,16 +468,19 @@ def main()->None:
                 cant_de_jugadores = len(lista_aprobados) #Definimos la cantidad de jugadores actuales
                 datos = cargar_diccionario_datos(lista_aprobados)
                 borrar_pantalla()
-                
+                print(datos)
                 while valido:
                     instanteInicial = datetime.now()#al empezar a jugar
                     tablero = crear_tablero(tamanio_de_tablero) #Genera el tablero con las fichas ocultas 
                     matriz = crear_matriz(tamanio_de_tablero) #Genera la matriz con las letras del juego
                     buscar_fichas(matriz,tablero,instanteInicial,tamanio_de_tablero,datos,cant_de_jugadores)
+                    
+                    etapa9.funcion_ingresar(datos)
                     valido = Tabla_Ganadores.imprimir_tabla_ganadores(cantidad, maximo_de_partidas, datos)
                     cantidad +=1
-                    datos = cargar_diccionario_datos(lista_aprobados)
-
+                    #datos = cargar_diccionario_datos(lista_aprobados)
+                    
+                etapa9.funcion_etapa9()
                 lista_aprobados = []
             else:
                 print("Debes registrar a menos 1 jugador")
