@@ -7,7 +7,8 @@ import os
 #-----------------------------------------------------------------------------#
 def leer_archivo(linea:str)->list:
     '''
-    Fran
+    Pre: Recibe una linea de un archivo
+    Fran: Lee la linea ingresada por parametro y retorna una lista.
     '''
     if linea:
         lista = linea.rstrip("\n").split(',')
@@ -18,6 +19,8 @@ def leer_archivo(linea:str)->list:
 #-----------------------------------------------------------------------------#
 def crear_lista_usuarios(archivo_registro, lista_registro:list)->list:
     '''
+    Pre: Recibe un archivo con los jugadores y una lista
+    Post: Crea la "lista_registro" con los usuarios que se encuentre en el archivo.
     Fran
     '''
     linea_registro = archivo_registro.readline()
@@ -30,8 +33,11 @@ def crear_lista_usuarios(archivo_registro, lista_registro:list)->list:
 
     return lista_registro
 #-----------------------------------------------------------------------------#
-def usuarios_aprobados(lista_de_usuarios:list,nombre_ingresado:str,contraseña_ingresada:str,lista_de_aprobados:list)->bool:
+def usuarios_aprobados(lista_de_usuarios:list,nombre_ingresado:str,contraseña_ingresada:str)->bool:
     '''
+    Pre: Recibe la lista de usuarios registrados y el nombre y contraseña ingresados
+    Post: Revisa si la contraseña y el usuario se encuentran registrados y retorna un boleano.
+
     Fran
     '''
     contador = 0 
@@ -54,6 +60,9 @@ def usuarios_aprobados(lista_de_usuarios:list,nombre_ingresado:str,contraseña_i
 #------------------------------------------------------------------------------#
 def verificar_duplicado(lista_aprobados:list, sub_lista:list):
     '''
+    Pre: Recibe la lista de aprobados y una sublista
+    Post: Revisa si el jugador ingresado en la sub lista se encuentra en "lista_aprobados"
+
     Fran
     '''
     if sub_lista in lista_aprobados:  
@@ -67,6 +76,9 @@ def verificar_duplicado(lista_aprobados:list, sub_lista:list):
 #-----------------------------------------------------------------------------#
 def validar_ingreso(lista_usuario:list, lista_aprobados:list)->list:
     '''
+    Pre: Recibe la lista de usuarios y la lista de aprobados
+    Post: Valida que el jugador ingresado se encuentre en la "lista_de_usuarios" y que no haya duplicados:
+
     Fran
     '''
     archivo_ingresado = open("Jug_ingresados.csv", "r")
@@ -78,7 +90,7 @@ def validar_ingreso(lista_usuario:list, lista_aprobados:list)->list:
     lista = (archivo_ingresado.readline()).rstrip("\n").split(",")
     archivo_ingresado.close()
         
-    sigue = usuarios_aprobados(lista_usuario, nombre_ingresado, contraseña_ingresada, lista_aprobados)
+    sigue = usuarios_aprobados(lista_usuario, nombre_ingresado, contraseña_ingresada)
     agregado = nombre_ingresado
 
     if(sigue == True)and(len(lista_aprobados) != 0):
@@ -95,9 +107,10 @@ def validar_ingreso(lista_usuario:list, lista_aprobados:list)->list:
 #------------------------------------------------------------------------------#
 def comenzar_juego(lista_aprobados:list):
     '''
+    Pre: Recibe la lista_aprobados
+    Post: Llama la ventana emergente con las msgbox
     Simon
     '''
-    
     empezar = ventana_emergente(3)
 
     return empezar
@@ -105,6 +118,9 @@ def comenzar_juego(lista_aprobados:list):
 #========================== INTERFACES GRAFICAS ==============================#
 def ventana_emergente(parametro:int): #SIMON 
     '''
+    Pre: Recibe un numero por parametro
+    Post:Ejecuta una msgbox dependiendo del numero recibido.
+
     Simon
     '''
 
@@ -128,11 +144,20 @@ def ventana_emergente(parametro:int): #SIMON
 #-----------------------------------------------------------------------------#
 def interfaz_ingreso_datos(): #SIMON  
     '''
+    Pre:-
+    Post: Crea una ventana que permite el ingreso de un usuario y contraseña
+
     Simon
     '''
     #=======================================#
     ''' FUNCION INTERNA '''
     def guardar_datos():
+        '''
+        Pre:-
+        Post: Crea el archivo "Jug_ingresados" y guarda la contraseña y el usuario.
+
+        Simon
+        '''
         archivo = open("Jug_ingresados.csv","w")
         archivo.seek(0)
         jugador_info = nombre_jugador.get()
@@ -166,6 +191,8 @@ def interfaz_ingreso_datos(): #SIMON
 #-----------------------------------------------------------------------------#
 def usuarios(): #SIMON
     '''
+    Pre:-
+    Post: Post abree el archivos de usuarios y crea una lista de usuarios con los jugadores registrados
     Simon
     '''
 
@@ -178,9 +205,11 @@ def usuarios(): #SIMON
 
 def jugadores_aprobados(cant_de_jugadores:int,lista_de_usuarios:list)->list:
     '''
+    Pre: Recibe la cantidad de jugadores y una lista de los archivos registrados
+    Post: Verifica que los jugadores aprobados esten en la lista de usuarios y los añade a la lista de aprobados 
+
     Simon
     '''
-    
     seguir = False
     lista_de_aprobados = []
 

@@ -114,9 +114,8 @@ def registro():
 
 def abrir_archivo_basura():
     '''
-    PRE: -
-    POST: Lee el archivo basura creado en el registro, guarda el contenido en una lista y 
-    despues borra el archivo basura
+    Pre: -
+    Post: Abre el "archivo basura", lo lee y lo guarda en una lista
     Simon
     '''
     archivo_basura = open("archivo_basura.csv","r")
