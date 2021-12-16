@@ -54,12 +54,14 @@ def registro():
     ''' FUNCION INTERNA 
     '''
 
-    def guardar_registro(archivo_csv):
+    def guardar_registro():
+        archivo_csv = open("archivo_basura.csv","w")
         usuario_info = usuario.get()
         contrasenia_info = contrasenia.get()
         segunda_contra_info = segunda_contra.get()
         cadena = usuario_info + ',' + contrasenia_info + ',' + segunda_contra_info + '\n'
-        archivo_csv.write(cadena)   
+        archivo_csv.write(cadena)
+        archivo_csv.close()    
         boton.config(command=ventana.destroy)
         
         
@@ -100,26 +102,15 @@ def registro():
     segunda_contra.place(x= 140, y= 70)
     segunda_contra.config(show = "*")
     segunda_contra_info = segunda_contra.get()
-    archivo = open("archivo_basura.csv","w")
-    boton = Button(ventana, text="Aceptar", command=lambda: guardar_registro(archivo))
-    archivo.close()
+    
+    boton = Button(ventana, text="Aceptar", command=guardar_registro)
     boton.place(x=140, y= 140)
     ventana.mainloop()
     return
 
 def abrir_archivo_basura():
-    '''
-    PRE: Recibe el numero de partidas hasta el momento, la cantidad maxima de partidas permitidas y la tabla escrita en una cadena.
-    POST: Devuelve un booleano que determina si se vuelve a jugar o no.
-
-    Simon
-    '''
     archivo_basura = open("archivo_basura.csv","r")
-    linea = archivo_basura.readline()
-    if linea:
-        lista = linea.rstrip('\n').split(',')
-    else:
-        lista = ['','','']
+    lista = archivo_basura.readline().rstrip('\n').split(',')
     archivo_basura.close()
     os.remove("archivo_basura.csv")
     return lista

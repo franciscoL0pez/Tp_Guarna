@@ -26,7 +26,6 @@ def crear_tablero(tablero_num:int)->list:
     '''
     Pre: -
     Post: Crea el tablero corto
-
     Marco
     '''   
     if tablero_num == 3:
@@ -41,7 +40,6 @@ def menu_elegir_tablero()->int:
     '''
     Pre: -
     Post: Configuraciones del juego
-
     Marco
     ''' 
     print("")
@@ -65,7 +63,6 @@ def pares_de_fichas(tamanio_de_tablero:int)->int:
     '''
     Pre: Recibe el tamanio del tablero
     Post: Returna la cantidad de pares que debe haber en el tablero
-
     Marco
     '''   
     cantidad_de_pares = 0 
@@ -105,7 +102,6 @@ def validar_menu()->int:
     '''
     Pre: Pide un numero en un rango
     Post: Te responde si el numero esta en el rango
-
     Martin
     '''
     numero = input("\nIngrese una opcion: ")                        
@@ -121,7 +117,6 @@ def validar_columnas_y_filas(numero:int,tamanio_de_tablero:int,fila_columna:int)
     '''
     Pre: -
     Post: Valida que los datos sean numeros y esten en el rango que se pide
-
     Martin
     '''
     if tamanio_de_tablero == 3 and fila_columna == 1:
@@ -158,7 +153,6 @@ def validar_lugar_disponible(tamanio_de_tablero:int,tablero:list,matriz:list):
     '''
     Pre: Pide una posicion por fila y columnas
     Post: Valida que las fichas no este ya elegidas
-
     Martin
     '''
     validar = True
@@ -184,7 +178,6 @@ def cantidad_de_letras(tamanio_de_tablero:int)->int:
     '''
     Pre: -
     Post: Define el tamaño que tiene que tener el tablero de juego  
-
     Martin
     '''
     if tamanio_de_tablero == 4:
@@ -201,7 +194,6 @@ def crear_matriz(tamanio_de_tablero:int)->list:
     '''
     Pre: -
     Post: Crea la matriz con las letras que se necesitan para jugar
-
     Marco
     '''
     letras = string.ascii_letters
@@ -235,7 +227,6 @@ def tiempo_jugado(instanteInicial:float)->None:
     '''
     Pre: -
     Post: indica cuanto tiempo tomo terminar una partida y cuantos intentos tuvo el usuario 
-
     Fede
     '''
     instanteFinal = datetime.now()
@@ -246,7 +237,6 @@ def sumar_puntos(datos:dict)->int:
     '''
     Pre:  -
     Post: Suma los puntos si el jugador encontro un par
-
     Fede
     '''
     PUNTOS_DEL_JUGADOR = 0
@@ -263,7 +253,6 @@ def cargar_diccionario_datos(lista_aprobados:list):
     '''
     Pre:  -
     Post: Crea un dic con los datos Puntos - Intentos
-
     Fede
     '''
     datos = {}
@@ -281,7 +270,6 @@ def jugador_que_incia(datos:dict)->None:
     '''
     Pre:  Toma los jugadores que vayan a jugar y los mezcla
     Post: Returna el jugador que inicia la partida
-
     Fran
     '''
     lista_de_jugadores = []
@@ -311,7 +299,6 @@ def ganador(datos:dict,lista_de_jugadores:list,cant_de_jugadores:int)->str:
     '''
     Pre: -
     Post: Compara los puntajes y si igualan compara los intentos
-
     Fran  
     '''
     #Esta funcion hay que cambiarla por la funcion de marco
@@ -341,16 +328,18 @@ def buscar_fichas(matriz:list,tablero:list,instanteInicial:float,tamanio_de_tabl
     '''
     Pre: Pide dos posiciones que esten en un rango de posibiladades 
     Post: Te devulve las letras que se hallan en esas posiciones ingresadas 
-
     Fran
     '''
     lista_de_jugadores = jugador_que_incia(datos) #Mezcla la lista de jugadores para que comience cualquiera
     jugador = lista_de_jugadores[0] #Llama al jugador que debe iniciar
+
     cantidad_de_pares = pares_de_fichas(tamanio_de_tablero) #Dice la cantidad de pares que hay que adivinar
     puntos_totales = 0 #Suma los puntos de los jugadores
+
     ficha_1 = 0
     ficha_2 =0
     turno = 0 
+
 
     while cantidad_de_pares > (puntos_totales+1) : #Buscar la forma de que se sumen los dos y en caso de  que sea uno se sume uno solo
        
@@ -439,18 +428,19 @@ def configuraciones()->int:
     cant_de_jugadores = int(informacion_archivo[1])
     maximo_de_partidas = int(informacion_archivo[2])
     reiniciar_archivo_partidas = informacion_archivo[3]
-    print("Maximo de partidas", maximo_de_partidas)
-
-    return cant_de_jugadores, tamanio_de_tablero, maximo_de_partidas, reiniciar_archivo_partidas
+    
+    return tamanio_de_tablero, cant_de_jugadores, maximo_de_partidas, reiniciar_archivo_partidas
 
 #------------------------------------------------------------------------------#
     
 def main()->None:
     opcion=0
     lista_de_usuarios = Login.usuarios() #Sacar desp por que esta para no hacer registros
-    cant_de_jugadores, tamanio_de_tablero, maximo_de_partidas , reiniciar_archivo_partidas = configuraciones()
+    tamanio_de_tablero , cant_de_jugadores, maximo_de_partidas , reiniciar_archivo_partidas = configuraciones()
+
     valido = True
     cantidad = 0 
+
     while opcion !=5:
         print("\n-----MENU PRINCIPAL-----")
         print("1. Empezar a jugar")
@@ -467,20 +457,28 @@ def main()->None:
                 cant_de_jugadores = len(lista_aprobados) #Definimos la cantidad de jugadores actuales
                 datos = cargar_diccionario_datos(lista_aprobados)
 
-                while valido:
+                while valido and cantidad <5 :
                     instanteInicial = datetime.now()#al empezar a jugar
                     tablero = crear_tablero(tamanio_de_tablero) #Genera el tablero con las fichas ocultas 
                     matriz = crear_matriz(tamanio_de_tablero) #Genera la matriz con las letras del juego
+                   
                     buscar_fichas(matriz,tablero,instanteInicial,tamanio_de_tablero,datos,cant_de_jugadores)
+                    
                     etapa9.funcion_etapa9(reiniciar_archivo_partidas)
                     
                     etapa9.funcion_ingresar(datos)
+                    
                     valido = Tabla_Ganadores.imprimir_tabla_ganadores(cantidad, maximo_de_partidas, datos)
                     cantidad +=1
                     datos = cargar_diccionario_datos(lista_aprobados)
                     
+                    if cantidad == 5 :
+                        print("Has alcanzado el numero maximo de partidas!")
+
+
                 lista_aprobados = []
                 valido = True
+                cantidad = 0
 
             else:
                 print("Debes registrar a menos 1 jugador")

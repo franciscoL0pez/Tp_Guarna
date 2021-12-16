@@ -63,7 +63,7 @@ def crear_cadena_tabla(lista):
 
 def imprimir_tabla_ganadores(cantidad:int, cantidad_max:int, datos:dict)->bool:
     lista_ordenada = crear_lista_final(datos) 
-    tabla_final = crear_cadena_tabla(lista_ordenada) #Problema
+    tabla_final = crear_cadena_tabla(lista_ordenada) 
 
     if cantidad <= cantidad_max:
         
@@ -74,5 +74,6 @@ def imprimir_tabla_ganadores(cantidad:int, cantidad_max:int, datos:dict)->bool:
         
         messagebox.showinfo(message="{}\n FIN DEL JUEGO ".format(tabla_final), title="Tabla de puntajes")
         valido = False 
+
 
     return valido

@@ -5,7 +5,9 @@ from tkinter import messagebox
 import os
 #================================ FUNCIONES ==================================#
 #-----------------------------------------------------------------------------#
-def leer_archivo(linea:str):
+def leer_archivo(linea:str)->list:
+    '''
+    '''
     if linea:
         lista = linea.rstrip("\n").split(',')
     else:
@@ -13,7 +15,7 @@ def leer_archivo(linea:str):
 
     return lista
 #-----------------------------------------------------------------------------#
-def crear_lista_usuarios(archivo_registro, lista_registro:list):
+def crear_lista_usuarios(archivo_registro, lista_registro:list)->list:
     linea_registro = archivo_registro.readline()
     sub_lista_registro = leer_archivo(linea_registro)
 
@@ -53,7 +55,7 @@ def verificar_duplicado(lista_aprobados:list, sub_lista:list):
 
     return duplicado
 #-----------------------------------------------------------------------------#
-def validar_ingreso(lista_usuario:list, lista_aprobados:list): 
+def validar_ingreso(lista_usuario:list, lista_aprobados:list)->list:
     archivo_ingresado = open("Jug_ingresados.csv", "r")
     archivo_ingresado.seek(0)
 
@@ -62,11 +64,6 @@ def validar_ingreso(lista_usuario:list, lista_aprobados:list):
 
     lista = (archivo_ingresado.readline()).rstrip("\n").split(",")
     archivo_ingresado.close()
-    
-    #Agrego solo el nombre ya que es el dato que nos importa
-    #Ya que solo miramos si el nombre esta duplicado
-    
-    #Quito el while por que lo estamos ciclaando abajo
         
     sigue = usuarios_aprobados(lista_usuario, nombre_ingresado, contraseña_ingresada, lista_aprobados)
     agregado = nombre_ingresado
@@ -90,7 +87,7 @@ def comenzar_juego(lista_aprobados:list):
     return empezar
 #-----------------------------------------------------------------------------#
 #========================== INTERFACES GRAFICAS ==============================#
-def ventana_emergente(parametro:int):
+def ventana_emergente(parametro:int): #SIMON 
     root = Tk()
     root.deiconify()
     root.withdraw()
@@ -109,7 +106,7 @@ def ventana_emergente(parametro:int):
 
     return comenzar
 #-----------------------------------------------------------------------------#
-def interfaz_ingreso_datos():
+def interfaz_ingreso_datos(): #SIMON  
     #=======================================#
     ''' FUNCION INTERNA '''
     def guardar_datos():
@@ -144,7 +141,7 @@ def interfaz_ingreso_datos():
     
     return 
 #-----------------------------------------------------------------------------#
-def usuarios():
+def usuarios(): #SIMON
     lista_de_usuarios = []
     archivo_Registro = open('usuarios.csv','r')
     lista_de_usuarios = crear_lista_usuarios(archivo_Registro, lista_de_usuarios)
@@ -152,7 +149,7 @@ def usuarios():
 
     return lista_de_usuarios
 
-def jugadores_aprobados(cant_de_jugadores,lista_de_usuarios)->list:
+def jugadores_aprobados(cant_de_jugadores:int,lista_de_usuarios:list)->list:
     seguir = False
     lista_de_aprobados = []
 
