@@ -64,7 +64,7 @@ def funcion_etapa9(reiniciar_archivo_partidas):
         for x in archivo_completo:
             completo2.append(x.strip("\n").split(","))   
 
-        print("El resumen de las partidas: ")
+        print("El resumen de las partidas:\n ")
 
         posicion = 0
         for linea in completo2:

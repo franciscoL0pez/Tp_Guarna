@@ -105,7 +105,7 @@ def validar_menu()->int:
     Martin
     '''
     numero = input("\nIngrese una opcion: ")                        
-    while not numero.isnumeric() or (int(numero)) >4 or (int(numero)) <1 :
+    while not numero.isnumeric() or (int(numero)) >5 or (int(numero)) <1 :
         print("")
         print("Esa opcion no es valida!")
         print("")
