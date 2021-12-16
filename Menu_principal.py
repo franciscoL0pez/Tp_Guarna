@@ -477,7 +477,7 @@ def main()->None:
                     etapa9.funcion_ingresar(datos)
                     valido = Tabla_Ganadores.imprimir_tabla_ganadores(cantidad, maximo_de_partidas, datos)
                     cantidad +=1
-                    #datos = cargar_diccionario_datos(lista_aprobados)
+                    datos = cargar_diccionario_datos(lista_aprobados)
                     
                 lista_aprobados = []
                 valido = True
