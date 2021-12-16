@@ -412,7 +412,7 @@ def archivo_configuracion():
                     elif contador == 2:
                         MAXIMO_PARTIDAS = renglon[1].strip("\n")
                     elif contador == 3:
-                        REINICIAR_ARCHIVO_PARTIDAS = renglon[1].strip("\n")
+                        REINICIAR_ARCHIVO_PARTIDAS = renglon[1].strip(" \n")
                     contador += 1
         
     except FileNotFoundError :

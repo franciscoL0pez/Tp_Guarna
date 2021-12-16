@@ -18,11 +18,12 @@ def funcion_ingresar(datos):
             #print(datos[jugador][1])
             linea_nueva = y + ", " + str(instanteFinal2) + ", " + jugador + ", " + str(datos[jugador][0]) + ", " + str(datos[jugador][1]) + "\n"
             archivo.write(linea_nueva)
+    
 def funcion_etapa9(reiniciar_archivo_partidas):
     with open("archivos.csv", "r+", encoding="utf-8") as archivo:
 
         archivo_completo = []
-        if reiniciar_archivo_partidas:
+        if (reiniciar_archivo_partidas == "False"):
             for line in archivo:
                 #print(line)
                 if "," in line:
