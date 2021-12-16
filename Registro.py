@@ -4,6 +4,8 @@ from tkinter import messagebox
 import os
 def mensaje_emergente(parametro):
     '''
+    PRE: -
+    POST: Recibe parametro y muestra una messagebox dependiendo del error que salta al registrar
     Fede
     '''
     root = Tk()
@@ -55,6 +57,8 @@ def mensaje_emergente(parametro):
 def registro():
     #=======================================#
     ''' 
+    PRE: -
+    POST: Crea interfaz grafica de registro, y crea el archivo csv donde se va a guardar lo ingresado
     Fede
     '''
     def guardar_registro():
@@ -110,6 +114,9 @@ def registro():
 
 def abrir_archivo_basura():
     '''
+    PRE: -
+    POST: Lee el archivo basura creado en el registro, guarda el contenido en una lista y 
+    despues borra el archivo basura
     Simon
     '''
     archivo_basura = open("archivo_basura.csv","r")
@@ -120,6 +127,8 @@ def abrir_archivo_basura():
 
 def validar_registro(lista):
     '''
+    PRE: Recibe la lista con el usuario y las contraseñas
+    POST: Verifica si fueron ingresadas correctamente y si lo fueron las guarda en el archivo registro
     Fede
     '''
     valido = False
@@ -169,6 +178,8 @@ def validar_registro(lista):
 #-------------------------------------------------------------------------------#
 def escribir_archivo(usuario, contrasenia):
     '''
+    PRE: Recibe el usuario y contraseña ya verificados 
+    POST: Los guarda en el archivo final de registro
     Fede
     '''
     archivo_csv = open("usuarios.csv","a", newline = "")
