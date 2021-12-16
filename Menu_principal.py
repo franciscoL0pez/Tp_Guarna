@@ -2,10 +2,15 @@ import string
 import random
 import os
 from datetime import datetime
-from tkinter import *
 import Registro
 import Login
 import os 
+import Tabla_Ganadores
+
+import tkinter
+from tkinter import *
+from tkinter import messagebox
+
 def borrar_pantalla()->None:
     '''
     Pre: -
@@ -261,7 +266,7 @@ def cargar_diccionario_datos(lista_aprobados:list):
     Fede
     '''
     datos = {}
-    # Puntos-intentos-ganadas
+    # Puntos-intentos- Ganadas
 
     for jugador in lista_aprobados:
         if jugador not in datos:
@@ -422,24 +427,30 @@ def archivo_configuracion():
     else:
         print("\nlos valores establecidos fueron dados por omision ")
 
-    lista_configuracion = [int(CANTIDAD_FICHAS),int(MAXIMO_JUGADORES), REINICIAR_ARCHIVO_PARTIDAS]
-
+    lista_configuracion = [ int(CANTIDAD_FICHAS),int(MAXIMO_JUGADORES), MAXIMO_PARTIDAS, REINICIAR_ARCHIVO_PARTIDAS ]
+    
     return lista_configuracion
 
 def configuraciones()->int:
     informacion_archivo = archivo_configuracion()
+
     tamanio_de_tablero = int(int(informacion_archivo[0])/4) #En caso de que el usuario decida  no configurar nada damos valores predeterminados
     cant_de_jugadores = int(informacion_archivo[1])
-    maximo_de_partidas = informacion_archivo[2]
+    maximo_de_partidas = int(informacion_archivo[2])
+    reiniciar_archivo_partidas = informacion_archivo[3]
+    print("Maximo de partidas", maximo_de_partidas)
 
-    return cant_de_jugadores, tamanio_de_tablero, maximo_de_partidas
+    return cant_de_jugadores, tamanio_de_tablero, maximo_de_partidas, reiniciar_archivo_partidas
 
+#------------------------------------------------------------------------------#
+    
 def main()->None:
     opcion=0
     lista_de_usuarios = Login.usuarios() #Sacar desp por que esta para no hacer registros
-    cant_de_jugadores, tamanio_de_tablero, maximo_de_partidas = configuraciones()
-    borrar_pantalla()
-
+    cant_de_jugadores, tamanio_de_tablero, maximo_de_partidas , reiniciar_archivo_partidas = configuraciones()
+    #borrar_pantalla()
+    valido = True
+    cantidad = 0 
     while opcion !=5:
         print("\n-----MENU PRINCIPAL-----")
         print("1. Empezar a jugar")
@@ -450,17 +461,23 @@ def main()->None:
         opcion = validar_menu()   
 
         if opcion == 1 :
-
+            
             if len(lista_de_usuarios) > 1 : #Pedimos que al menos tenga 1 jugador registrado
                 lista_aprobados = Login.jugadores_aprobados(cant_de_jugadores,lista_de_usuarios)
                 cant_de_jugadores = len(lista_aprobados) #Definimos la cantidad de jugadores actuales
                 datos = cargar_diccionario_datos(lista_aprobados)
                 borrar_pantalla()
-                instanteInicial = datetime.now()#al empezar a jugar
-                tablero = crear_tablero(tamanio_de_tablero) #Genera el tablero con las fichas ocultas 
-                matriz = crear_matriz(tamanio_de_tablero) #Genera la matriz con las letras del juego
-                buscar_fichas(matriz,tablero,instanteInicial,tamanio_de_tablero,datos,cant_de_jugadores) 
+                
+                while valido:
+                    instanteInicial = datetime.now()#al empezar a jugar
+                    tablero = crear_tablero(tamanio_de_tablero) #Genera el tablero con las fichas ocultas 
+                    matriz = crear_matriz(tamanio_de_tablero) #Genera la matriz con las letras del juego
+                    buscar_fichas(matriz,tablero,instanteInicial,tamanio_de_tablero,datos,cant_de_jugadores)
+                    valido = Tabla_Ganadores.imprimir_tabla_ganadores(cantidad, maximo_de_partidas, datos)
+                    cantidad +=1
+                    datos = cargar_diccionario_datos(lista_aprobados)
 
+                lista_aprobados = []
             else:
                 print("Debes registrar a menos 1 jugador")
 
